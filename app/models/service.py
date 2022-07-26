@@ -9,3 +9,5 @@ class Service(db.Model, BaseEntity):
     service_type = db.Column(db.ForeignKey('service_types.service_type_id'), nullable=False)
     request = db.Column(db.Boolean, nullable=False, default=False)
     description = db.Column(db.Text)
+
+    users = db.relationship('UserService', cascade='all')

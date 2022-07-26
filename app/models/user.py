@@ -14,3 +14,5 @@ class User(db.Model, BaseEntity):
 
     address_id = db.Column(db.ForeignKey("address.address_id"))
     address = db.relationship("Address", back_populates="users")
+
+    services = db.relationship('UserService', cascade='all')
