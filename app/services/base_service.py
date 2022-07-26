@@ -1,5 +1,26 @@
+from abc import ABC, abstractmethod
 
+class BaseService(ABC):
+    @abstractmethod
+    def find_all(self):
+        pass
 
-class BaseService:
-    def find_one(userid: int):
+    @abstractmethod
+    def find_one(self, entity_id: int):
+        pass
+
+    @abstractmethod
+    def find_one_by(self, **kwargs):
+        pass
+
+    @abstractmethod
+    def insert(self, data):
+        pass
+
+    @abstractmethod
+    def update(self, entity_id: int, data):
+        pass
+
+    @abstractmethod
+    def delete(self, entity_id: int):
         pass
