@@ -12,3 +12,5 @@ class User(db.Model, BaseEntity):
     description = db.Column(db.Text)
     hours = db.Column(db.Integer)
     address = db.Column(db.ForeignKey("address.address_id"))
+
+    services = db.relationship('UserService', cascade='all')

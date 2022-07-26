@@ -22,4 +22,4 @@ Install steps:
 Rappel:
 - snake_case
 - Suivre le schema
-- Pour migrer la db : `./sqlAlchemy.sh -m yyyymmdd_hh:mm_functionality` et ensuite l'upgrade avec `./sqlAlchemy.sh -u`
+- Pour migrer la db : `./sqlAlchemy.sh -m yyyymmdd_hhmm_functionality` et ensuite l'upgrade avec `./sqlAlchemy.sh -u`
