@@ -1,16 +1,60 @@
 {% extends 'layout/layout.html' %}
 {% block body %}
-    <form action="" method="post">
-        <input type="text" name="first_name">
-        <input type="text" name="last_name"><br>
-        <input type="text" name="username"><br>
-        <input type="password" name="password"><br>
-        <input type="password" name="confirm"><br>
-        <input type="text" name="mail"><br>
-        <input type="text" name="description">
-        <input type="text" name="streetname">
-        <input type="number" name="number"><br>
-        <input type="number" name="zip_code">
-        <input type="text" name="country">
+<form action="" method="post">
+    <div class="form-row">
+        <div class="col-md-4 mb-3">
+            <label for="email">mail</label>
+            <input type="text" class="form-control" name="mail">
+        </div>
+    </div>
+    <div class="form-row">
+            <div class="col">
+                <label for="first Name">First Name</label>
+                <input type="text" class="form-control" name="First Name">
+            </div>
+            <div class="col">
+                <label for="last Name">Last Name</label>
+                <input type="text" class="form-control" name="Last Name">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="username">username</label>
+                <input type="text" class="form-control" name="username">
+            </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-4 mb-3">
+            <label for="password">password</label>
+            <input type="password" class="form-control" name="password">
+        </div>
+        <div class="col-md-4 mb-3">
+            <label for="confirm">confirm</label>
+            <input type="password" class="form-control" name="confirm">
+        </div>
+    </div>
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="street">street</label>
+                <input type="text" class="form-control" name="streetname">
+                <label for="number">nr°</label>
+                <input type="number" class="form-control" min="0" name="number">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="zip_code">zip</label>
+                <input type="number" class="form-control" min="0" name="zip_code">
+                <label for="country">country</label>
+                <select name="country" class="form-control">
+                    <option value="Belgium">Belgium</option>
+                    <option value="France">France</option>
+                    <option value="England">England</option>
+                    <option value="Germany">Germany</option>
+                    <option value="Netherlands">Netherlands</option>
+                    <option value="Italy">Italy</option>
+                    <option value="Switzerland">Switzerland</option>
+                </select>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Submit form</button>
     </form>
 {% endblock %}
