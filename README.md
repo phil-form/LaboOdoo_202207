@@ -12,7 +12,7 @@ model view controller service dto mapper
 Install steps: 
 1. Installer les requirements
 `pip install -r requirements.txt`
-2. Eventuellement setup venv chez vous
+2. Eventuellement setup venv chez vous `python -m venv ./venv` et `source venv/bin/activate`
 3. Upgrade la db
 `./sqlAlchemy.sh -u`
 4. Run le serveur
