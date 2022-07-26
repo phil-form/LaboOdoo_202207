@@ -2,8 +2,8 @@
 
 [X] Créer la base du projet
 [ ] Users (Profil) + Authentification <David>
-[ ] Comments + Rating <Claire>
-[ ] Services <Amaury>
+[ ] Comments + Rating <Amaury>
+[ ] Services <Claire>
 [ ] Prestations <Etienne>
 
 model view controller service dto mapper
