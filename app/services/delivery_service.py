@@ -20,7 +20,6 @@ class DeliveryService(BaseService):
     def insert(self, data):
         delivery = Delivery()
         DeliveryMapper.form_to_entity(data, delivery)
-
         try:
             db.session.add(delivery)
             db.session.commit()
@@ -29,3 +28,31 @@ class DeliveryService(BaseService):
             db.session.rollback()
 
         return self.find_one(delivery.delivery_id)
+
+    def update(self, entity_id: int, data):
+        delivery = Delivery.query.filter_by(delivery_id=entity_id).one()
+        if delivery is None:
+            return None
+
+        DeliveryMapper.form_to_entity(data, delivery)
+        try:
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            db.session.rollback()
+        
+        return self.find_one(entity_id)
+
+    def delete(self, entity_id: int):
+        delivery = Delivery.query.filter_by(delivery_id=entity_id).one()
+        if delivery is None:
+            return None
+
+        try:
+            db.session.delete(delivery)
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            db.session.rollback()
+
+        return delivery.delivery_id

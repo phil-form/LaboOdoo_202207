@@ -1,8 +1,0 @@
-Faire un système d’échange de services contenant les fonctionnalités suivantes : 
-	
-	
-Des profils d’utilisateurs, avec nom, prénom, description, localisation, des informations complémentaires et les différents services proposés.
-Une page montrant tous les services proposés et permettant de rechercher les services par type ou de faire une recherche via une barre de recherche.
-Une page d’information des services décrivant celui-ci et montrant la personne le proposant. On peut aussi mettre des commentaires et noter la qualité.
-La possibilité de faire une demande d’un service et pouvoir consulter les demandes et y répondre, une fois une demande clôturée retirer celle-ci de la liste.
-
