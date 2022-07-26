@@ -1,10 +1,10 @@
 # Labo 
 
-[X] Créer la base du projet
-[ ] Users (Profil) + Authentification <David>
-[ ] Comments + Rating <Amaury>
-[ ] Services <Claire>
-[ ] Prestations <Etienne>
+- [X] Créer la base du projet
+- [ ] Users (Profil) + Authentification <David>
+- [ ] Comments + Rating <Amaury>
+- [ ] Services <Claire>
+- [ ] Prestations <Etienne>
 
 model view controller service dto mapper
 
