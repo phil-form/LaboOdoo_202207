@@ -11,3 +11,4 @@ class User(db.Model, BaseEntity):
     mail = db.Column(db.String(100))
     description = db.Column(db.Text)
     hours = db.Column(db.Integer)
+    address = db.Column(db.ForeignKey("address.address_id"))
