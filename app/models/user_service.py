@@ -2,7 +2,7 @@ from app import db
 from app.models.base_entity import BaseEntity
 
 
-class UserService(BaseEntity, db.Model):
+class UserService(db.Model, BaseEntity):
     __tablename__ = "user_services"
     user_service_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.ForeignKey("users.user_id"), nullable=False)
