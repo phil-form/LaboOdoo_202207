@@ -1,19 +1,37 @@
 from app import app
 
-from flask import jsonify, render_template, session, request
+from flask import render_template, session, request, url_for, redirect
+from app.dtos.user_dto import UserDTO
 
 from app.services.user_service import UserService
 from app.forms.user_register_form import UserRegisterform
+from app.forms.user_login_form import UserLoginform
 
 userservice = UserService()
 
 @app.route('/user/<int:userid>')
 def profile_page(userid: int):
-    return render_template('user/user.html', user= userservice.find_one(userid))
+    return render_template('user/profile.html', user=userservice.find_one(userid))
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login_page():
-    return render_template('user/login.html')
+    form = UserLoginform(request.form)
+    if request.method == "POST":
+        if form.validate():
+            user = userservice.login(form)
+
+            if not type(user) == UserDTO:
+                return render_template('user/login.html', form=form, errors=user)
+            session['userid'] = user.user_id
+            session['username'] = user.username
+            print(user.password)
+            return render_template('user/profile.html', user=user)
+        else:
+            return render_template('user/login.html', form=form, errors=form.errors)        
+
+    return render_template('user/login.html', form=form)
+
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
@@ -29,3 +47,9 @@ def register_page():
         else:
             return render_template('user/register.html', form=form, errors=form.errors)
     return render_template('user/register.html', form=form)
+
+@app.route('/logout')
+def logout():
+    session.pop('userid')
+    session.pop('username')
+    return redirect(url_for('index'))
