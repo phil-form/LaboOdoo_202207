@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 
-
 class AbstractMapper(ABC):
     @abstractmethod
     def entity_to_dto(entity):
