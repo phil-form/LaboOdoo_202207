@@ -3,8 +3,8 @@
 <div id="service_detail_view" class="col-8">
     <h1>
         {{service.name}} details
-        <span class="badge bg-primary">{% if service.request %}Request{% else %}Offer{% endif %}</span>
-        <span class="badge bg-secondary">{{service.type.name}}</span>
+        <span class="badge bg-primary rounded-pill">{% if service.request %}Request{% else %}Offer{% endif %}</span>
+        <span class="badge bg-secondary rounded-pill">{{service.type.name}}</span>
     </h1>
     <p>{{service.description}}</p>
     <div class="row">
