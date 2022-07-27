@@ -29,7 +29,7 @@ export class CommentComponent {
         const commentDate = document.createElement('footer');
         commentDate.classList.add('blockquote-footer', 'mt-1');
         content.innerText = data.content;
-        commentDate.innerText = "27/07/22";
+        commentDate.innerText = data.create_date;
 
         bq.appendChild(content);
         bq.appendChild(commentDate);

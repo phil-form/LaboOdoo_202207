@@ -23,9 +23,22 @@ def add_comment(comment_service: CommentService):
         if form.validate():
             try:
                 comment = comment_service.insert(form)
-                return redirect(url_for('get_all_comments'))
+                res = {
+                    "type": "response",
+                    "data": comment.get_json_parsable()
+                }
+
+                return jsonify(res)
+
             except Exception as e:
                 print(e)
+        else:
+            res = {
+                "type": "error",
+                "message": form.errors['content']
+            }
+
+            return jsonify(res)
 
     return render_template('comment/new_comment.html', form=form)
 

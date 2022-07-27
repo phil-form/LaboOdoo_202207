@@ -5,9 +5,38 @@
         <form id="newComment" method="post">
             {{ form.csrf_token }}
             <textarea class="form-control" name="content" placeholder="type your comment..." rows="3" required></textarea>
-            <div class="form-text">max 500 characters</div>
+            <div id="commentInfo" class="form-text">max 500 characters</div>
 
-            <input type="submit" class="btn btn-primary mt-3" value="Send">
+            <input id="submitComment" type="submit" class="btn btn-primary mt-3" value="Send">
         </form>
     </div>
+    <script type="module">
+        import { sendAjax } from '/static/js/ajax-tools.js';
+
+        const submitComment = document.getElementById('submitComment');
+        submitComment.addEventListener('click', (event) =>
+        {
+            event.preventDefault();
+
+            const formData = new FormData(document.forms['newComment']);
+
+            sendAjax('/comments/add', 'post', formData)
+                .then((res) =>
+                {
+                    const parsedRes = JSON.parse(res);
+
+                    if (parsedRes.type === "response") {
+                        alert("comment send !");
+                        document.forms['newComment'].reset();
+                    } else {
+                        const contentInput = document.querySelector('textarea');
+                        contentInput.classList.add('is-invalid');
+
+                        const infoDiv = document.querySelector('div#commentInfo');
+                        infoDiv.classList.add('text-danger');
+                        infoDiv.innerText = parsedRes.message;
+                    }
+                });
+        })
+    </script>
 {% endblock %}
