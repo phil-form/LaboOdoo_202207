@@ -13,6 +13,7 @@ class Service(db.Model, BaseEntity):
     description = db.Column(db.Text)
 
     users = db.relationship('UserService', cascade='all')
+    type = db.relationship('ServiceType')
 
     def add_user(self, user: User):
         if user in self.get_users():

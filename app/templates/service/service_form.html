@@ -13,12 +13,12 @@
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="service_request">Request</label>
                 <input class="form-check-input" type="radio" name="request" id="service_request"
-                       value="request" checked="{{form.request.data}}">
+                       value="request" {% if form.request.data %}checked{% endif %}>
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="service_offer">Offer</label>
                 <input class="form-check-input" type="radio" name="request" id="service_offer"
-                       value="offer" checked="{{not form.request.data}}">
+                       value="offer" {% if not form.request.data %}checked{% endif %}>
             </div>
         </div>
         <!-- name -->
@@ -31,10 +31,10 @@
         <div class="form-group">
             <label for="service_type">Service type</label>
             <select class="form-control" id="service_type" name="service_type">
-                {% for choice in form.service_type %}
+                {% for choice in form.service_type.choices %}
                 <option id="service_type_option"
-                        {%if choice.label == form.service_type.data%}selected{%endif%}>
-                    {{choice.label}}
+                        {%if choice == form.service_type.data%}selected{%endif%}>
+                    {{choice}}
                 </option>
                 {% endfor %}
             </select>
@@ -43,7 +43,7 @@
         <div class="form-group">
             <label for="service_description">Description</label>
             <textarea class="form-control" id="service_description" name="description"
-                      rows="2" value="{{form.description.data}}"></textarea>
+                      rows="2">{{form.description.data}}</textarea>
         </div>
         <!-- submit -->
         <div class="form-group">
