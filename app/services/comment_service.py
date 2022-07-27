@@ -13,7 +13,7 @@ class CommentService(BaseService):
         return CommentDTO.build_from_entity(Comment.query.filter_by(comment_id=entity_id).one())
 
     def find_all_by(self, **kwargs):
-        return [CommentDTO.build_from_entity(Comment.query.filter_by(**kwargs))]
+        return [CommentDTO.build_from_entity(comment) for comment in Comment.query.filter_by(**kwargs)]
 
     def find_one_by(self, **kwargs):
         return CommentDTO.build_from_entity(Comment.query.filter_by(**kwargs).one())
