@@ -1,17 +1,24 @@
 {% extends "layout/layout.html" %}
 {% block body %}
-    <div>
-        <h1>
-            Comments
-        </h1>
+    <div class="container">
+        <h1 class="mb-3 mt-3">Comments</h1>      
         <div id="comments"></div>
     </div>
     <script type="module">
         import { sendAjax } from '/static/js/ajax-tools.js';
+        import { CommentComponent } from '/static/js/components/comment-component.js';
 
         sendAjax('/comments/service')
             .then((res) => {
-                document.querySelector('#comments').innerText = res;
+                const datas = JSON.parse(res);
+                console.log(datas)
+
+                datas.forEach(data => {
+                    console.log(data.comment_id)
+                    let comment = new CommentComponent(data);
+                    let commentDiv = document.querySelector('#comments');
+                    commentDiv.appendChild(comment.card);
+                });
             })
     </script>
 {% endblock %}

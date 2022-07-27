@@ -1,14 +1,13 @@
 {% extends "layout/layout.html" %}
 {% block body %}
-    <div>
-        <h1>
-            Add a comment
-        </h1>
+    <div class="container">
+        <h1 class="mb-3 mt-3">New comment</h1>   
         <form id="newComment" method="post">
             {{ form.csrf_token }}
-            <input type="text" name="content" placeholder="type your comment" required>
+            <textarea class="form-control" name="content" placeholder="type your comment..." rows="3" required></textarea>
+            <div class="form-text">max 500 characters</div>
 
-            <input type="submit" value="Send">
+            <input type="submit" class="btn btn-primary mt-3" value="Send">
         </form>
     </div>
 {% endblock %}
