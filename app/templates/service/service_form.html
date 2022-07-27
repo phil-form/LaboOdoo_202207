@@ -1,6 +1,6 @@
 {% extends "layout/layout.html" %}
 {% block body %}
-<div class="col-md-7 col-lg-8">
+<div id="service_form_view" class="col-8">
     {% if not service %}
     <h1>New service</h1>
     {% else %}
@@ -46,8 +46,23 @@
                       rows="2">{{form.description.data}}</textarea>
         </div>
         <!-- submit -->
-        <div class="form-group">
-            <button class="w-100 btn btn-primary btn-lg" type="submit">Save</button>
+        <div class="row">
+            <div class="col-6">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">Save</button>
+            </div>
+            <div class="col-6">
+                {% if service %}
+                <a class="w-100 btn btn-secondary btn-lg"
+                   href="{{ url_for('service_detail', service_id=service.service_id) }}">
+                    Cancel
+                </a>
+                {% else %}
+                <a class="w-100 btn btn-secondary btn-lg"
+                   href="{{ url_for('service_list') }}">
+                    Cancel
+                </a>
+                {% endif %}
+            </div>
         </div>
     </form>
 </div>

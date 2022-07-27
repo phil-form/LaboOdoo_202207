@@ -1,4 +1,19 @@
 {% extends "layout/layout.html" %}
 {% block body %}
-<h1>{{service.name}} details</h1>
+<div id="service_detail_view" class="col-8">
+    <h1>
+        {{service.name}} details
+        <span class="badge bg-primary">{% if service.request %}Request{% else %}Offer{% endif %}</span>
+        <span class="badge bg-secondary">{{service.type.name}}</span>
+    </h1>
+    <p>{{service.description}}</p>
+    <div class="row">
+        <div class="col-6">
+            <a class="w-100 btn btn-primary" href="{{ url_for('service_update', service_id=service.service_id) }}">Edit</a>
+        </div>
+        <div class="col-6">
+            <a class="w-100 btn btn-primary" href="{{ url_for('index') }}">Offer the same service</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
