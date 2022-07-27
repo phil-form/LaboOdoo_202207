@@ -1,6 +1,7 @@
 from app.dtos.abstract_dto import AbstractDTO
 from app.dtos.service_type_dto import ServiceTypeDTO
 from app.models.service import Service
+from app.models.service_type import ServiceType
 
 
 class ServiceDTO(AbstractDTO):
@@ -20,7 +21,8 @@ class ServiceDTO(AbstractDTO):
         service_dto.name = service.name
         service_dto.description = service.description
         service_dto.request = service.request
-        service_dto.service_type = ServiceTypeDTO.build_from_entity(service.service_type)
+        service_type_entity = ServiceType.query.filter_by(service_type_id=service.service_type).one()
+        service_dto.service_type = ServiceTypeDTO.build_from_entity(service_type_entity)
         service_dto.users = []
         # FIXME when david is done with user DTO
         # for user in service.users:

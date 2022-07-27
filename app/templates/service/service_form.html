@@ -11,14 +11,14 @@
         <!-- request ? -->
         <div class="form-group">
             <div class="form-check form-check-inline">
-                <label class="form-check-label" for="service_request">Proposal</label>
+                <label class="form-check-label" for="service_request">Request</label>
                 <input class="form-check-input" type="radio" name="request" id="service_request"
                        value="request" checked="{{form.request.data}}">
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="service_offer">Offer</label>
                 <input class="form-check-input" type="radio" name="request" id="service_offer"
-                       value="offer" checked="{{form.request.data}}">
+                       value="offer" checked="{{not form.request.data}}">
             </div>
         </div>
         <!-- name -->
@@ -33,7 +33,7 @@
             <select class="form-control" id="service_type" name="service_type">
                 {% for choice in form.service_type %}
                 <option id="service_type_option"
-                        selected="{{form.service_type.data == choice.label}}">
+                        {%if choice.label == form.service_type.data%}selected{%endif%}>
                     {{choice.label}}
                 </option>
                 {% endfor %}

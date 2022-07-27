@@ -13,6 +13,9 @@ class ServiceTypeService(BaseService):
     def find_one_by(self, **kwargs):
         return ServiceTypeDTO.build_from_entity(ServiceType.query.filter_by(**kwargs).one())
 
+    def find_one_entity_by_name(self, name: str):
+        return ServiceType.query.filter_by(name=name).one()
+
     def insert(self, data):
         pass
 
