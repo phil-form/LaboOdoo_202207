@@ -23,7 +23,6 @@ class CommentService(BaseService):
         CommentMapper.form_to_entity(data, comment)
         comment.author_id = 1
         comment.service_id = 1
-        comment.comment_id = 4
 
         try:
             db.session.add(comment)

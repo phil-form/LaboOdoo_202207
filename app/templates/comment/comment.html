@@ -11,10 +11,8 @@
         sendAjax('/comments/service')
             .then((res) => {
                 const datas = JSON.parse(res);
-                console.log(datas)
 
                 datas.forEach(data => {
-                    console.log(data.comment_id)
                     let comment = new CommentComponent(data);
                     let commentDiv = document.querySelector('#comments');
                     commentDiv.appendChild(comment.card);
