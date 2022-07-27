@@ -11,6 +11,17 @@ class DeliveryMapper(AbstractMapper):
 
     @staticmethod
     def form_to_entity(form, delivery: Delivery):
-        pass
+        delivery.client_id          =         form.client_id.data
+        delivery.start_date         =         form.start_date.data
+        delivery.duration           = ConvDur(form.dur_str.data)
+        delivery.duration_effective = ConvDur(form.dur_eff_str.data)
+        delivery.done               =         form.done.data
         # if isinstance(form, BasketAddItemForm):
         #
+
+    def ConvDur(DurStr: string) -> int:
+        hm = DurStr.split(":")
+        h  = int(hm[0])
+        m  = int(hm[1])
+
+        return (60 * h) + m
