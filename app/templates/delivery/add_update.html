@@ -1,0 +1,90 @@
+{% extends "layout/layout.html" %}
+{% block body %}
+<div>
+    <form id="add_update_delivery" method="post">
+        {{ form.csrf_token }}
+        <span>
+            <label for="workername"Prestataire: ></label>
+            <input type="text"   name="workername"     id="workername"     value="{{ workername }}" disabled>
+            <input type="button" name="workerdetails"  id="workerdetails"  value="Détails">
+        </span>
+        <span>
+            <label for="servicename"Service: ></label>
+            <input type="text"   name="servicename"    id="servicename"    value="{{ servicename }}" disabled>
+            <input type="button" name="servicedetails" id="servicedetails" value="Détails">
+        </span>
+
+        <span>
+            <label for="clientname"Client: ></label>
+            <select name="clientname" id="clientname" placeholder="Choisissez" value="{{ form.clientname.data }}"
+                {% if clId = -1 %}
+                    required
+                {% else %}
+                    disabled
+                {% endif %}>
+                {% for usr in usrLst %}
+                    <option value="{{ usr.user_id }}"
+                        {% if clId = usr.user_id %}
+                            selected
+                        {% endif %}>
+                        {{ usr.first_name + " " + usr.last_name }}
+                    </option>
+                {% endfor %}
+            </select>
+            {% if form.errors and "clientname" in form.errors.keys() %}
+                {{ form.errors['clientnames'] }}
+            {% endif %}
+            <input type="button" name="clientdetails" id="clientdetails" value="Détails">
+        </span>
+        <span>
+            <label for="startdate"Date (de début): ></label>
+            <input type="date" name="startdate" id="startdate" value="{{ form.startdate.data }}"
+                {% if clId = -1 %}
+                    required
+                {% else %}
+                    disabled
+                {% endif %}>
+            {% if form.errors and "startdate" in form.errors.keys() %}
+                {{ form.errors['startdate'] }}
+            {% endif %}
+        </span>
+        <span>
+            <label for="duration"Durée prévue: ></label>
+            <input type="text" name="duration" id="duration" placeholder="h:mm" value="{{ form.duration.data }}"
+                {% if clId = -1 %}
+                    required
+                {% else %}
+                    disabled
+                {% endif %}>
+            {% if form.errors and "duration" in form.errors.keys() %}
+                {{ form.errors['duration'] }}
+            {% endif %}
+        </span>
+
+        <span>
+            <label for="durationeff"Durée effective: ></label>
+            <input type="text" name="durationeff" id="durationeff" placeholder="h:mm" value="{{ form.durationeff.data }}"
+                {% if clId = -1 %}
+                    hidden
+                {% else %}
+                    required
+                {% endif %}>
+            {% if form.errors and "durationeff" in form.errors.keys() %}
+                {{ form.errors['durationeff'] }}
+            {% endif %}
+        </span>
+        <span>
+            <label for="done"Clôturé: ></label>
+            <input type="checkbox" name="done" id="done" value="{{ form.done.data }}"
+                {% if clId = -1 %}
+                    hidden
+                {% endif %}>
+            {% if form.errors and "done" in form.errors.keys() %}
+                {{ form.errors['done'] }}
+            {% endif %}
+        </span>
+
+        <input type="submit" value="Enregistrer">
+    </form>
+</div>
+{% endblock %}
