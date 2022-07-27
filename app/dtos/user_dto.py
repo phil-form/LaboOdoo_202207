@@ -11,7 +11,7 @@ class UserDTO():
         self.password = None
         self.mail = None
         self.description = None
-        self.hours = None
+        self.hours = 0
         self.address = AddressDTO()
 
     def getDTO(self):
@@ -45,6 +45,7 @@ class UserDTO():
         user.mail = self.mail
         user.description = self.description
         user.hours = self.hours
+        user.password = self.password
 
         user.address = Address()
         user.address.street = self.address.street
