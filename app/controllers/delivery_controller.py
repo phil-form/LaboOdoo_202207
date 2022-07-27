@@ -16,14 +16,14 @@ from app.models.user import User
 from app.models.service import Service
 
 @app.route('/delivery/add', methods=['GET', 'POST'])
-def deliveryAdd(user_service_id):
-    return deliveryAddUpdate(user_service_id, -1)
+def delivery_add(user_service_id):
+    return delivery_add_update(user_service_id, -1)
 
 @app.route('/delivery/update', methods=['GET', 'POST'])
-def deliveryUpdate(delivery_id):
-    return deliveryAddUpdate(-1, delivery_id)
+def delivery_update(delivery_id):
+    return delivery_add_update(-1, delivery_id)
 
-def deliveryAddUpdate(user_service_id, delivery_id):
+def delivery_add_update(user_service_id, delivery_id):
     if delivery_id == -1:
         # add
         delivery = Delivery()
