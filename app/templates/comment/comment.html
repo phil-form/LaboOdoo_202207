@@ -3,8 +3,14 @@
         <h1>
             Comments
         </h1>
-        <div>
-            {{ comments }}
-        </div>
+        <div id="comments"></div>
     </div>
+    <script type="module">
+        import { sendAjax } from '/static/js/ajax-tools.js';
+
+        sendAjax('/comments/service')
+            .then((res) => {
+                document.querySelector('#comments').innerText = res;
+            })
+    </script>
 {% endblock %}

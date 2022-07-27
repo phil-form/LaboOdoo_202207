@@ -3,6 +3,10 @@ from app.services.comment_service import CommentService
 from flask import render_template, redirect, jsonify
 from app.framework.decorators.inject import inject
 
+@app.route('/comments', methods=['GET'])
+def get_comments():
+    return render_template('comment/comment.html')
+
 
 @app.route('/comments/service', methods=['GET', 'POST'])
 @inject
