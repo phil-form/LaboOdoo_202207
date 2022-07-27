@@ -1,0 +1,54 @@
+{% extends "layout/layout.html" %}
+{% block body %}
+<div class="col-md-7 col-lg-8">
+    {% if not service %}
+    <h1>New service</h1>
+    {% else %}
+    <h1>{{ service.name }}</h1>
+    {% endif %}
+    <form id="service_form" method="post">
+        {{ form.csrf_token }}
+        <!-- request ? -->
+        <div class="form-group">
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="service_request">Request</label>
+                <input class="form-check-input" type="radio" name="request" id="service_request"
+                       value="request" checked="{{form.request.data}}">
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="service_offer">Offer</label>
+                <input class="form-check-input" type="radio" name="request" id="service_offer"
+                       value="offer" checked="{{not form.request.data}}">
+            </div>
+        </div>
+        <!-- name -->
+        <div class="form-group">
+            <label for="service_name">Service name</label>
+            <input type="text" class="form-control" id="service_name" name="name"
+                   placeholder="Enter name" value="{{form.name.data}}" required>
+        </div>
+        <!-- type -->
+        <div class="form-group">
+            <label for="service_type">Service type</label>
+            <select class="form-control" id="service_type" name="service_type">
+                {% for choice in form.service_type %}
+                <option id="service_type_option"
+                        {%if choice.label == form.service_type.data%}selected{%endif%}>
+                    {{choice.label}}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <!-- description -->
+        <div class="form-group">
+            <label for="service_description">Description</label>
+            <textarea class="form-control" id="service_description" name="description"
+                      rows="2" value="{{form.description.data}}"></textarea>
+        </div>
+        <!-- submit -->
+        <div class="form-group">
+            <button class="w-100 btn btn-primary btn-lg" type="submit">Save</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
