@@ -1,4 +1,5 @@
 from app.dtos.address_dto import AddressDTO
+from app.models.address import Address
 from app.models.user import User
 
 class UserDTO():
@@ -7,10 +8,11 @@ class UserDTO():
         self.username = None
         self.firstname = None
         self.lastname = None
+        self.password = None
         self.mail = None
         self.description = None
-        self.hours = None
-        self.address: AddressDTO = None
+        self.hours = 0
+        self.address = AddressDTO()
 
     def getDTO(self):
         return self
@@ -33,3 +35,22 @@ class UserDTO():
 
         return userdto
 
+    def dto_to_entity(self) -> User:
+        user = User()
+
+        user.user_id = self.user_id
+        user.username = self.username
+        user.first_name = self.firstname
+        user.last_name = self.lastname
+        user.mail = self.mail
+        user.description = self.description
+        user.hours = self.hours
+        user.password = self.password
+
+        user.address = Address()
+        user.address.street = self.address.street
+        user.address.number = self.address.number
+        user.address.zip = self.address.zip
+        user.address.country = self.address.country
+
+        return user
