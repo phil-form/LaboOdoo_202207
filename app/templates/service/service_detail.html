@@ -16,7 +16,7 @@
     </div>
     <div class="row">
         <!-- FIXME remove comments when authentication is done -->
-        {#{% if session.get('user_id') in [u.user_id for u in service.users] %}#}
+        {#{% if session.get('userid') in [u.user_id for u in service.users] %}#}
         <div class="col-6">
             <a class="w-100 btn btn-primary" href="{{ url_for('service_update', service_id=service.service_id) }}">Edit</a>
         </div>

@@ -59,5 +59,5 @@ def service_detail(service_id: int, service_service: ServiceService):
 @app.route('/services/addUser/<int:service_id>', methods=['GET'])
 @inject
 def service_add_user(service_id: int, service_service: ServiceService):
-    service = service_service.add_user(session.get("user_id"), service_id)
+    service = service_service.add_user(session.get("userid"), service_id)
     return render_template('service/service_detail.html', service=service)
