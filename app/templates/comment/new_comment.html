@@ -1,13 +1,13 @@
-{% extends "layout/layout.html" %}
 {% block body %}
-    <div class="container">
+    <div class="container, mb-5">
         <h1 class="mb-3 mt-3">New comment</h1>   
         <form id="newComment" method="post">
-            {{ form.csrf_token }}
+            
             <textarea class="form-control" name="content" placeholder="type your comment..." rows="3" required></textarea>
             <div id="commentInfo" class="form-text">max 500 characters</div>
 
             <input id="submitComment" type="submit" class="btn btn-primary mt-3" value="Send">
+            <button id="cancelComment" class="btn btn-secondary mt-3">Cancel</button>
         </form>
     </div>
     <script type="module">
@@ -24,19 +24,43 @@
                 .then((res) =>
                 {
                     const parsedRes = JSON.parse(res);
+                    const contentInput = document.querySelector('textarea');
+                    const infoDiv = document.querySelector('div#commentInfo');
+                    const popup = document.querySelector('div#popup');
 
                     if (parsedRes.type === "response") {
-                        alert("comment send !");
                         document.forms['newComment'].reset();
+                        infoDiv.classList.remove('text-danger');
+                        infoDiv.innerText = "max 500 characters";                    
+                        contentInput.classList.remove('is-invalid');
+                        popup.classList.add('alert', 'alert-success');
+                        popup.innerHTML = '<strong>Success!</strong>  New comment added.'
+                        document.querySelector('#newCommentVueButton').click();
+                        setTimeout(() => {
+                            popup.classList.remove('alert', 'alert-success');
+                            popup.innerHTML = '';
+                        }, 2000);
                     } else {
-                        const contentInput = document.querySelector('textarea');
                         contentInput.classList.add('is-invalid');
-
-                        const infoDiv = document.querySelector('div#commentInfo');
                         infoDiv.classList.add('text-danger');
                         infoDiv.innerText = parsedRes.message;
                     }
                 });
+        });
+
+        const cancelComment = document.getElementById('cancelComment');
+        cancelComment.addEventListener('click', (event) =>
+        {
+            event.preventDefault();
+            
+            const infoDiv = document.querySelector('div#commentInfo');
+            const contentInput = document.querySelector('textarea');
+            
+            document.querySelector('#newCommentVueButton').click();
+            document.forms['newComment'].reset();
+            infoDiv.classList.remove('text-danger');
+            infoDiv.innerText = "max 500 characters";           
+            contentInput.classList.remove('is-invalid'); 
         })
     </script>
 {% endblock %}

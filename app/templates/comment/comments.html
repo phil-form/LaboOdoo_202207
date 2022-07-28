@@ -1,6 +1,11 @@
 {% block body %}
     <div class="container">
-        <h1 class="mb-3 mt-3">Comments {{ service.service_id }}</h1>      
+        <h1 class="mb-3 mt-3">Comments</h1>
+        <button id="newCommentVueButton" data-bs-toggle="collapse" data-bs-target="#newCommentVue" class="btn btn-primary mb-3">New Comment</button>
+        <div id="newCommentVue" class="collapse">
+            {% include "comment/new_comment.html" %}  
+        </div>
+        <div id="popup"></div>    
         <div id="comments"></div>
     </div>
     <script type="module">
