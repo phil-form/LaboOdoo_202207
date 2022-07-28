@@ -1,10 +1,18 @@
 # Labo 
 
 - [X] Créer la base du projet
-- [ ] Users (Profil) + Authentification <David>
-- [ ] Comments + Rating <Amaury>
-- [ ] Services <Claire>
-- [ ] Prestations <Etienne>
+- [ ] Users (Profil) + Authentification (David)
+- [ ] Comments + Rating (Amaury)
+- [ ] Services (Claire)
+  - [x] Liste des services
+    - [ ] Ajouter la recherche de services selon plusieurs paramètres
+  - [x] Form du service
+    - [ ] Gérer les erreurs du form
+  - [ ] Détail d'un service
+    - [ ] Permettre à un utilisateur de proposer le même service
+  - [ ] Gérer les actions en fonction de l'authentification
+  - [ ] Check qu'on a injecté les services partout où c'est possible
+- [ ] Prestations (Etienne)
 
 model view controller service dto mapper
 

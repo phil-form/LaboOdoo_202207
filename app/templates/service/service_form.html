@@ -1,6 +1,6 @@
 {% extends "layout/layout.html" %}
 {% block body %}
-<div class="col-md-7 col-lg-8">
+<div id="service_form_view" class="col-8">
     {% if not service %}
     <h1>New service</h1>
     {% else %}
@@ -13,12 +13,12 @@
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="service_request">Request</label>
                 <input class="form-check-input" type="radio" name="request" id="service_request"
-                       value="request" checked="{{form.request.data}}">
+                       value="request" {% if form.request.data %}checked{% endif %}>
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label" for="service_offer">Offer</label>
                 <input class="form-check-input" type="radio" name="request" id="service_offer"
-                       value="offer" checked="{{not form.request.data}}">
+                       value="offer" {% if not form.request.data %}checked{% endif %}>
             </div>
         </div>
         <!-- name -->
@@ -31,10 +31,10 @@
         <div class="form-group">
             <label for="service_type">Service type</label>
             <select class="form-control" id="service_type" name="service_type">
-                {% for choice in form.service_type %}
+                {% for choice in form.service_type.choices %}
                 <option id="service_type_option"
-                        {%if choice.label == form.service_type.data%}selected{%endif%}>
-                    {{choice.label}}
+                        {%if choice == form.service_type.data%}selected{%endif%}>
+                    {{choice}}
                 </option>
                 {% endfor %}
             </select>
@@ -43,11 +43,26 @@
         <div class="form-group">
             <label for="service_description">Description</label>
             <textarea class="form-control" id="service_description" name="description"
-                      rows="2" value="{{form.description.data}}"></textarea>
+                      rows="2">{{form.description.data}}</textarea>
         </div>
         <!-- submit -->
-        <div class="form-group">
-            <button class="w-100 btn btn-primary btn-lg" type="submit">Save</button>
+        <div class="row">
+            <div class="col-6">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">Save</button>
+            </div>
+            <div class="col-6">
+                {% if service %}
+                <a class="w-100 btn btn-secondary btn-lg"
+                   href="{{ url_for('service_detail', service_id=service.service_id) }}">
+                    Cancel
+                </a>
+                {% else %}
+                <a class="w-100 btn btn-secondary btn-lg"
+                   href="{{ url_for('service_list') }}">
+                    Cancel
+                </a>
+                {% endif %}
+            </div>
         </div>
     </form>
 </div>

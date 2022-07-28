@@ -36,8 +36,9 @@ def service_update(service_id: int, service_service: ServiceService):
         if form.validate():
             service = service_service.update(service_id, form)
             return redirect(url_for('service_detail', service_id=service.service_id))
+    print(service)
     form.name.data = service.name
-    form.service_type.data = service.service_type.name
+    form.service_type.data = service.type.name
     form.request.data = service.request
     form.description.data = service.description
     return render_template('service/service_form.html', service=service, form=form)
