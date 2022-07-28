@@ -7,12 +7,21 @@
         <span class="badge bg-secondary rounded-pill">{{service.type.name}}</span>
     </h1>
     <p>{{service.description}}</p>
+    <div id="users_linked_to_service">
+        <h3>Users {% if service.request %}requesting{% else %}offering{% endif %} the service:
+        {% for user in service.users %}
+            <span class="badge bg-secondary rounded-pill">{{user.username}}</span> <!-- FIXME insert link to user's profile page ? -->
+        {% endfor %}
+        </h3>
+    </div>
     <div class="row">
         <div class="col-6">
             <a class="w-100 btn btn-primary" href="{{ url_for('service_update', service_id=service.service_id) }}">Edit</a>
         </div>
         <div class="col-6">
-            <a class="w-100 btn btn-primary" href="{{ url_for('index') }}">Offer the same service</a>
+            <a class="w-100 btn btn-primary" href="{{ url_for('index') }}">
+                {% if service.request %}Request{% else %}Offer{% endif %} the same service
+            </a>
         </div>
     </div>
 </div>

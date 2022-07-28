@@ -1,5 +1,6 @@
 from app.dtos.abstract_dto import AbstractDTO
 from app.dtos.service_type_dto import ServiceTypeDTO
+from app.dtos.user_dto import UserDTO
 from app.models.service import Service
 
 
@@ -23,9 +24,8 @@ class ServiceDTO(AbstractDTO):
         service_dto.request = service.request
         service_dto.type = ServiceTypeDTO.build_from_entity(service.type)
         service_dto.users = []
-        # FIXME when david is done with user DTO
-        # for user in service.users:
-        #     service_dto.users.append(UserDTO.build_from_entity(user))
+        for user in service.get_users():
+            service_dto.users.append(UserDTO.entity_to_dto(user))
         return service_dto
 
     def get_json_parsable(self):
