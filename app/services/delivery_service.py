@@ -20,7 +20,6 @@ class DeliveryService(BaseService):
     def insert(self, data):
         delivery = Delivery()
         DeliveryMapper.form_to_entity(data, delivery)
-        print(delivery)
         try:
             db.session.add(delivery)
             db.session.commit()

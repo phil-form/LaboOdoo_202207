@@ -45,7 +45,7 @@ def delivery_add_update(frm, user_service_id, delivery_id, delivery_serv: Delive
         # add
         delivery = Delivery()
         delivery.user_service_id = user_service_id
-        clId = -1
+        cl_id = -1
     else:
         # update
         #delivery = delivery_serv.find_one(delivery_id)
@@ -55,22 +55,22 @@ def delivery_add_update(frm, user_service_id, delivery_id, delivery_serv: Delive
         delivery.client_id = 3              # temporaire
         delivery.start_date = "2023-01-01"  # temporaire
         delivery.duration = 4               # temporaire
-        clId = delivery.client_id
+        cl_id = delivery.client_id
 
     # il n'y a pas encore de user_service_service ...
-    # usrSrv      = user_service_service.find_one(delivery.user_service_id)
-    usrSrv      = UserService() # temporaire
-    usrSrv.rel_user = 1         # temporaire
-    usrSrv.rel_service = 1      # temporaire
+    # usr_srv      = user_service_service.find_one(delivery.user_service_id)
+    usr_srv      = UserService() # temporaire
+    usr_srv.rel_user = 1         # temporaire
+    usr_srv.rel_service = 1      # temporaire
 
-    # user        = UserService.find_one(usrSrv.rel_user)
+    # user        = UserService.find_one(usr_srv.rel_user)
     user = User()               # temporaire
     user.user_id = 1            # temporaire
     user.first_name = "Etienne" # temporaire
     user.last_name = "André"    # temporaire
 
     # il n'y a pas encore de service_service ...
-    # service     = service_service.find_one(usrSrv.rel_service)
+    # service     = service_service.find_one(usr_srv.rel_service)
     service     = Service()             # temporaire
     service.service_id = 1              # temporaire
     service.name = "Tondre la pelouse"  # temporaire
@@ -78,33 +78,33 @@ def delivery_add_update(frm, user_service_id, delivery_id, delivery_serv: Delive
     serviceType = ServiceType()         # temporaire
     serviceType.name = "Jardinage"      # temporaire
 
-    #usrLst = usr_srv.find_all()
-    usrLst = []                     # temporaire
+    #usr_lst = usr_srv.find_all()
+    usr_lst = []                    # temporaire
     usr = User()                    # temporaire
     usr.user_id = -1                # temporaire
     usr.first_name = "Choisissez"   # temporaire
     usr.last_name = ""              # temporaire
-    usrLst.append(usr)              # temporaire
+    usr_lst.append(usr)             # temporaire
     usr = User()                    # temporaire
     usr.user_id = 2                 # temporaire
     usr.first_name = "Alfred"       # temporaire
     usr.last_name = "Dupont"        # temporaire
-    usrLst.append(usr)              # temporaire
+    usr_lst.append(usr)             # temporaire
     usr = User()                    # temporaire
     usr.user_id = 3                 # temporaire
     usr.first_name = "Barnabé"      # temporaire
     usr.last_name = "Martin"        # temporaire
-    usrLst.append(usr)              # temporaire
+    usr_lst.append(usr)             # temporaire
     usr = User()                    # temporaire
     usr.user_id = 4                 # temporaire
     usr.first_name = "Casimir"      # temporaire
     usr.last_name = "Durand"        # temporaire
-    usrLst.append(usr)              # temporaire
+    usr_lst.append(usr)             # temporaire
 
     return render_template('delivery/add_update.html',  form=frm,
-                                                        clId=clId,
+                                                        clid=cl_id,
                                                         user=user,
                                                         service=service,
                                                         srvtype=serviceType.name,
                                                         delivery=delivery,
-                                                        usrLst=usrLst)
+                                                        usr_lst=usr_lst)

@@ -3,7 +3,7 @@
 <div>
     <form id="add_update_delivery" method="post">
         {{ form.csrf_token }}
-        {% if clId == -1 %}
+        {% if clid == -1 %}
             <h3>Création d'une prestation</h3>
         {% else %}
             <h3>Mise à jour d'une prestation</h3>
@@ -28,17 +28,17 @@
         <p>
             <span>
                 <label for="clientname">Client: </label>
-                {% if clId == -1 %}
+                {% if clid == -1 %}
                     <select name="clientname" id="clientname" required value="{{ form.clientname.data }}" placeholder="Choisissez">
-                        {% for usr in usrLst %}
+                        {% for usr in usr_lst %}
                             <option value="{{ usr.user_id }}"> {{ usr.first_name + " " + usr.last_name }} </option>
                         {% endfor %}
                     </select>
                 {% else %}
                     <select name="clientname" id="clientname" disabled value="{{ delivery.client_id }}">
-                        {% for usr in usrLst %}
+                        {% for usr in usr_lst %}
                             <option value="{{ usr.user_id }}"
-                                {% if clId == usr.user_id %}
+                                {% if clid == usr.user_id %}
                                     selected
                                 {% endif %}>
                                 {{ usr.first_name + " " + usr.last_name }}
@@ -56,7 +56,7 @@
         <p>
             <span>
                 <label for="startdate">Date (de début): </label>
-                {% if clId == -1 %}
+                {% if clid == -1 %}
                     <input type="date" name="startdate" id="startdate" required value="{{ form.startdate.data }}" placeholder="dd-mm-aaaa">
                 {% else %}
                     <input type="date" name="startdate" id="startdate" disabled value="{{ delivery.start_date }}">
@@ -69,7 +69,7 @@
         <p>
             <span>
                 <label for="duration">Durée prévue: </label>
-                {% if clId == -1 %}
+                {% if clid == -1 %}
                     <input type="text" name="duration" id="duration" required value="{{ form.duration.data if form.duration.data else '' }}" placeholder="h:mm">
                 {% else %}
                     <input type="text" name="duration" id="duration" disabled value="{{ delivery.duration }}">
@@ -80,7 +80,7 @@
             </span>
         </p>
 
-        {% if clId != -1 %}
+        {% if clid != -1 %}
             <p>
                 <span>
                     <label for="durationeff">Durée effective: </label>

@@ -18,11 +18,11 @@ class DeliveryMapper(AbstractMapper):
         delivery.done               =                         form.done.data
 
     @staticmethod
-    def conv_dur(DurStr: str) -> int:
-        if DurStr == None:
+    def conv_dur(dur_str: str) -> int:
+        if dur_str == None:
             return None
 
-        hm = DurStr.split(":")
+        hm = dur_str.split(":")
         h  = int(hm[0])
         m  = int(hm[1])
 
