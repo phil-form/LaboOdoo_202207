@@ -2,8 +2,6 @@ from functools import wraps
 from flask import redirect, session, url_for
 
 from app.framework.decorators.inject import inject
-from app.services.auth_service import AuthService
-
 
 def auth_required(level="USER", or_is_current_user=False):
     def auth_required_decorator(func):

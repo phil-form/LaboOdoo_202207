@@ -1,7 +1,9 @@
 from app import app
+from app import db
 
 from flask import render_template, session, request, url_for, redirect
 from app.dtos.user_dto import UserDTO
+from app.models.role import Role
 
 from app.services.user_service import UserService
 from app.forms.user_register_form import UserRegisterform
@@ -22,16 +24,15 @@ def profile_page(userid: int):
 
 @app.route('/users/<int:userid>/edit', methods=['GET', 'POST'])
 def edit_profile(userid: int):
-    if request.method == "POST":
-        form = UserRegisterform(request.form)
+    form = UserRegisterform(request.form)
+    if request.method == "POST":        
         user = userservice.update(userid, form)
         return redirect(url_for('profile_page', userid=userid))
-    else:
-        form = UserRegisterform(request.form)
-        user = userservice.find_one(entity_id=userid)
-        form.load_from_DTO(user)
-        return render_template('user/profile_edit.html', user= user, form=form,
-                                                         profile_picture=url_for('static', filename='images/blank_profile.png'))
+
+    user = userservice.find_one(entity_id=userid)
+    form.load_from_DTO(user)
+    return render_template('user/profile_edit.html', user= user, form=form,
+                                                        profile_picture=url_for('static', filename='images/blank_profile.png'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -50,8 +51,6 @@ def login_page():
             return render_template('user/login.html', form=form, errors=form.errors)        
 
     return render_template('user/login.html', form=form)
-
-
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
@@ -73,3 +72,10 @@ def logout():
     session.pop('userid')
     session.pop('username')
     return redirect(url_for('index'))
+
+@app.route('/test')
+def test():
+    role = Role.query.filter_by(rolename='USER').first()
+    user = User.query.filter_by(user_id=1).first()
+    userservice.add_role(user.user_id, role)
+    return render_template('layout/layout.html')

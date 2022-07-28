@@ -1,6 +1,8 @@
 from typing import Any, Dict
 from app import db
 from app.models.base_entity import BaseEntity
+from app.models.user_role import UserRole
+from app.models.role import Role
 
 class User(db.Model, BaseEntity):
     __tablename__ = "users"
@@ -17,6 +19,7 @@ class User(db.Model, BaseEntity):
     address = db.relationship("Address", back_populates="users")
 
     services = db.relationship('UserService', cascade='all')
+    roles    = db.relationship('UserRole', cascade='all')
 
     def get_attributes(self):
         return {
@@ -32,9 +35,9 @@ class User(db.Model, BaseEntity):
         }
 
     def load_from_attr_dict(self, dict: Dict[Any, Any]):
-        self.username       = dict['username']
-        self.first_name       = dict['firstname']
-        self.last_name        = dict['lastname']
+        self.username        = dict['username']
+        self.first_name      = dict['firstname']
+        self.last_name       = dict['lastname']
         self.mail            = dict['mail']
         self.description     = dict['description']
         self.address.street  = dict['street']
@@ -43,3 +46,13 @@ class User(db.Model, BaseEntity):
         self.address.country = dict['country']
 
         return self
+
+    def add_role(self, role: Role):
+        if role in self.roles:
+            return
+
+        print('coucou')
+        userrole = UserRole()
+        userrole.rel_role = role
+        userrole.rel_user = self
+        self.roles.append(userrole)
