@@ -16,10 +16,11 @@ class CommentDTO(AbstractDTO):
 
         if isinstance(entity, Comment):
             comment_dto.comment_id = entity.comment_id
-            comment_dto.author_id = entity.author_id
+            comment_dto.author_id = entity.rel_author.username
             comment_dto.user_services_id = entity.user_service_id
             comment_dto.service_id = entity.service_id
             comment_dto.content = entity.content
+            comment_dto.create_date = entity.createdate
 
         return comment_dto
 

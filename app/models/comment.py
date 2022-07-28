@@ -8,3 +8,7 @@ class Comment(db.Model, BaseEntity):
     user_service_id = db.Column(db.ForeignKey('user_services.user_service_id'), nullable=True)
     service_id = db.Column(db.ForeignKey('services.service_id'), nullable=True)
     content = db.Column(db.String(500), nullable=False)
+
+    rel_author = db.relationship("User")
+    rel_user_service = db.relationship("UserService")
+    rel_service = db.relationship("Service")
