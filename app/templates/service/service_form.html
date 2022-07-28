@@ -1,0 +1,69 @@
+{% extends "layout/layout.html" %}
+{% block body %}
+<div id="service_form_view" class="col-8">
+    {% if not service %}
+    <h1>New service</h1>
+    {% else %}
+    <h1>{{ service.name }}</h1>
+    {% endif %}
+    <form id="service_form" method="post">
+        {{ form.csrf_token }}
+        <!-- request ? -->
+        <div class="form-group">
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="service_request">Request</label>
+                <input class="form-check-input" type="radio" name="request" id="service_request"
+                       value="request" {% if form.request.data %}checked{% endif %}>
+            </div>
+            <div class="form-check form-check-inline">
+                <label class="form-check-label" for="service_offer">Offer</label>
+                <input class="form-check-input" type="radio" name="request" id="service_offer"
+                       value="offer" {% if not form.request.data %}checked{% endif %}>
+            </div>
+        </div>
+        <!-- name -->
+        <div class="form-group">
+            <label for="service_name">Service name</label>
+            <input type="text" class="form-control" id="service_name" name="name"
+                   placeholder="Enter name" value="{{form.name.data}}" required>
+        </div>
+        <!-- type -->
+        <div class="form-group">
+            <label for="service_type">Service type</label>
+            <select class="form-control" id="service_type" name="service_type">
+                {% for choice in form.service_type.choices %}
+                <option id="service_type_option"
+                        {%if choice == form.service_type.data%}selected{%endif%}>
+                    {{choice}}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <!-- description -->
+        <div class="form-group">
+            <label for="service_description">Description</label>
+            <textarea class="form-control" id="service_description" name="description"
+                      rows="2">{{form.description.data}}</textarea>
+        </div>
+        <!-- submit -->
+        <div class="row">
+            <div class="col-6">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">Save</button>
+            </div>
+            <div class="col-6">
+                {% if service %}
+                <a class="w-100 btn btn-secondary btn-lg"
+                   href="{{ url_for('service_detail', service_id=service.service_id) }}">
+                    Cancel
+                </a>
+                {% else %}
+                <a class="w-100 btn btn-secondary btn-lg"
+                   href="{{ url_for('service_list') }}">
+                    Cancel
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

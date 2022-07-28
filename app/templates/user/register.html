@@ -1,0 +1,86 @@
+{% extends 'layout/layout.html' %}
+{% block body %}
+<form action="" method="post">
+    {{form.csrf_token}}
+    <div class="form-group row">
+        <div class="col-md-4 mb-3">
+            <label for="email">mail</label>
+            <input type="text" class="form-control" name="mail" value="{{form.mail.data}}">
+        </div>
+    </div>
+    <div class="form-group row">
+            <div class="col">
+                <label for="first Name">First Name</label>
+                <input type="text" class="form-control" name="first_name" value="{{form.first_name.data}}">
+            </div>
+            <div class="col">
+                <label for="last Name">Last Name</label>
+                <input type="text" class="form-control" name="last_name" value="{{form.last_name.data}}">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="username">username</label>
+                <input type="text" class="form-control" name="username" value="{{form.username.data}}">
+            </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-4 mb-3">
+            <label for="password">password</label>
+            <input type="password" class="form-control" name="password" value="{{form.password.data}}">
+        </div>
+        <div class="col-md-4 mb-3">
+            <label for="confirm">confirm</label>
+            <input type="password" class="form-control" name="confirm" value="{{form.confirm.data}}">
+        </div>
+    </div>
+        <div class="form-group row">
+            <div class="col-md-4 mb-3">
+                <label for="street">street</label>
+                <input type="text" class="form-control" name="street" value="{{form.street.data}}">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="number">nr°</label>
+                <input type="number" class="form-control" min="0" name="number" value="{{form.number.data}}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-4 mb-3">
+                <label for="zip_code">zip</label>
+                <input type="number" class="form-control" min="0" name="zip_code" value="{{form.zip_code.data}}">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="country">country</label>
+                <select name="country" class="form-control" value="{{form.country.data}}">
+                    <option value="Belgium">Belgium</option>
+                    <option value="France">France</option>
+                    <option value="England">England</option>
+                    <option value="Germany">Germany</option>
+                    <option value="Netherlands">Netherlands</option>
+                    <option value="Italy">Italy</option>
+                    <option value="Switzerland">Switzerland</option>
+                </select>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Submit form</button>
+        {% if errors %}
+            <script>
+                let jserrors = {{errors | tojson}};
+                for ( let item in jserrors) {
+                    let elem = document.getElementsByName(item);
+                    elem[0].style.backgroundColor = "red";
+
+                    const childElem = document.createElement('p');
+                    const elemErrors = jserrors[item];
+
+                    if (elemErrors[0] != "Invalid input.")
+                        childElem.innerText += elemErrors[0];
+                    else
+                        childElem.innerText += " password must contain at least 8 characters";
+
+                    childElem.style.color = "red"
+                    console.log(jserrors[item])
+                    elem[0].insertAdjacentElement('afterend', childElem);
+                }
+            </script>
+        {% endif %}
+    </form>
+{% endblock %}

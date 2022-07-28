@@ -1,0 +1,23 @@
+{% extends "layout/layout.html" %}
+{% block body %}
+<div id="service_list_view" class="col-8">
+    <h1>All services</h1>
+    <a class="btn btn-primary" href="{{ url_for('service_add') }}">New service</a>
+    <div id="service_list">
+        <ul class="list-group">
+            {% for service in services %}
+            <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-start"
+               href="{{url_for('service_detail', service_id=service.service_id)}}">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">
+                        <span class="badge bg-primary rounded-pill">{% if service.request %}Request{%else%}Offer{%endif%}</span>
+                        {{service.name}}</div>
+                    {{service.description}}
+                </div>
+                <span class="badge bg-secondary rounded-pill">{{service.type.name}}</span>
+            </a>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
