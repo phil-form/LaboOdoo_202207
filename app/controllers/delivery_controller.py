@@ -1,64 +1,110 @@
-from flask                              import render_template, redirect
+from flask                              import render_template, redirect, request
 from flask_wtf                          import FlaskForm
 
 from app                                import app
+from app.framework.decorators.inject    import inject
 from app.models.delivery                import Delivery
 from app.services.delivery_service      import DeliveryService
 from app.forms.delivery_add_update      import DeliveryAddUpdateForm
+from app.services.user_service          import UserService
 # ces services n'existent pas encore
-#from app.services.user_service          import UserService
 #from app.services.service_service       import ServiceService
+#from app.services.service_type_service  import ServiceTypeService
 #from app.services.user_service_service  import UserServiceService
 
-# ne sera plus utile lorsque les sercices ci-dessus existeront
-from app.models.user_service import UserService
-from app.models.user import User
-from app.models.service import Service
+# ne sera (probablement ?) plus utile lorsque les sercices ci-dessus existeront
+from app.models.user                    import User
+from app.models.service                 import Service
+from app.models.service_type            import ServiceType
 
-@app.route('/delivery/add', methods=['GET', 'POST'])
-def delivery_add(user_service_id):
-    return delivery_add_update(user_service_id, -1)
+@app.route('/delivery/add/<int:user_service_id>', methods=['GET', 'POST'])
+@inject
+def delivery_add(user_service_id, delivery_serv: DeliveryService):
+    frm = DeliveryAddUpdateForm(request.form)
+    if request.method == 'POST':
+        if frm.validate():
+            delivery = delivery_serv.insert(frm)
+            return redirect(url_for('#', delivery_id=delivery.delivery_id))
 
-@app.route('/delivery/update', methods=['GET', 'POST'])
-def delivery_update(delivery_id):
-    return delivery_add_update(-1, delivery_id)
+    return delivery_add_update(frm, user_service_id, -1)
 
-def delivery_add_update(user_service_id, delivery_id):
+@app.route('/delivery/update/<int:delivery_id>', methods=['GET', 'POST'])
+@inject
+def delivery_update(delivery_id, delivery_serv: DeliveryService):
+    frm = DeliveryAddUpdateForm(request.form)
+    if request.method == 'POST':
+        if frm.validate():
+            delivery = delivery_serv.update(delivery.delivery_id, frm)
+            return redirect(url_for('#', delivery_id=delivery.delivery_id))
+
+    return delivery_add_update(frm, -1, delivery_id)
+
+@inject
+def delivery_add_update(frm, user_service_id, delivery_id, delivery_serv: DeliveryService, usr_srv: UserService):
     if delivery_id == -1:
         # add
         delivery = Delivery()
         delivery.user_service_id = user_service_id
-    else:
-        # update
-        delivery = DeliveryService.find_one(delivery_id)
-
-    frm         = DeliveryService(FlaskForm)
-
-    # il n'y a pas encore de user_service_service ...
-    usrSrv      = UserService()
-    # usrSrv      = user_service_service.find_one(delivery.user_service_id)
-
-    # il n'y a pas encore de user_service ...
-    user        = User()
-    # user        = user_service.find_one(usrSrv.rel_user)
-    workername  = user.first_name + " " + user.last_name
-
-    # il n'y a pas encore de service_service ...
-    service     = Service()
-    # service     = service_service.find_one(usrSrv.rel_service)
-    servicename = service.name + " (" + service.service_type + ")"
-
-    usrLst  = UserService.find_all()
-
-    if delivery_id == -1:
-        # add
         clId = -1
     else:
         # update
+        #delivery = delivery_serv.find_one(delivery_id)
+        delivery = Delivery()               # temporaire
+        delivery.delivery_id = 1            # temporaire
+        delivery.user_service_id = 1        # temporaire
+        delivery.client_id = 3              # temporaire
+        delivery.start_date = "2023-01-01"  # temporaire
+        delivery.duration = 4               # temporaire
         clId = delivery.client_id
+
+    # il n'y a pas encore de user_service_service ...
+    # usrSrv      = user_service_service.find_one(delivery.user_service_id)
+    usrSrv      = UserService() # temporaire
+    usrSrv.rel_user = 1         # temporaire
+    usrSrv.rel_service = 1      # temporaire
+
+    # user        = UserService.find_one(usrSrv.rel_user)
+    user = User()               # temporaire
+    user.user_id = 1            # temporaire
+    user.first_name = "Etienne" # temporaire
+    user.last_name = "André"    # temporaire
+
+    # il n'y a pas encore de service_service ...
+    # service     = service_service.find_one(usrSrv.rel_service)
+    service     = Service()             # temporaire
+    service.service_id = 1              # temporaire
+    service.name = "Tondre la pelouse"  # temporaire
+    # serviceType = ServiceTypeService.find_one(service.service_type)
+    serviceType = ServiceType()         # temporaire
+    serviceType.name = "Jardinage"      # temporaire
+
+    #usrLst = usr_srv.find_all()
+    usrLst = []                     # temporaire
+    usr = User()                    # temporaire
+    usr.user_id = -1                # temporaire
+    usr.first_name = "Choisissez"   # temporaire
+    usr.last_name = ""              # temporaire
+    usrLst.append(usr)              # temporaire
+    usr = User()                    # temporaire
+    usr.user_id = 2                 # temporaire
+    usr.first_name = "Alfred"       # temporaire
+    usr.last_name = "Dupont"        # temporaire
+    usrLst.append(usr)              # temporaire
+    usr = User()                    # temporaire
+    usr.user_id = 3                 # temporaire
+    usr.first_name = "Barnabé"      # temporaire
+    usr.last_name = "Martin"        # temporaire
+    usrLst.append(usr)              # temporaire
+    usr = User()                    # temporaire
+    usr.user_id = 4                 # temporaire
+    usr.first_name = "Casimir"      # temporaire
+    usr.last_name = "Durand"        # temporaire
+    usrLst.append(usr)              # temporaire
 
     return render_template('delivery/add_update.html',  form=frm,
                                                         clId=clId,
-                                                        workername=workername,
-                                                        servicename=servicename,
+                                                        user=user,
+                                                        service=service,
+                                                        srvtype=serviceType.name,
+                                                        delivery=delivery,
                                                         usrLst=usrLst)

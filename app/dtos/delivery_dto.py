@@ -28,6 +28,5 @@ class DeliveryDTO(AbstractDTO):
 
         return delivery_dto
 
-
     def get_json_parsable(self):
         return self.__dict__
