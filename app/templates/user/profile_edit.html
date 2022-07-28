@@ -1,0 +1,60 @@
+{% extends 'layout/layout.html' %}
+{% block body %}
+    <form action="", method="post">
+        {{form.csrf_token}}
+        <div class="container">
+            <div>
+                <h1>profile</h1>
+                <input type="submit" value="edit">
+            </div>
+            <div class="row justify-content-start">
+                <div class="col-md-3">
+                    <img src="{{profile_picture}}" alt="profile picture">
+                </div>
+                <div class="col-md-4 ">
+                    <label for="username">username</label>
+                    <input type="text" class="form-control" name="username" value="{{form.username.data}}">
+                        <label for="mail">mail</label>
+                        <input type="text" class="form-control" name="mail" value="{{form.mail.data}}">
+                    <h4>
+                        address
+                    </h4>
+                    <div class="col-md-4 mb-3">
+                        <label for="street">street</label>
+                        <input type="text" class="form-control" name="street" value="{{form.street.data}}">
+                        <label for="number">number</label>
+                        <input type="number" class="form-control" name="number" value="{{form.number.data}}">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="zip">zip</label>
+                        <input type="number" class="form-control" name="zip" value="{{form.zip_code.data}}">
+                        <label for="country">country</label>
+                        <select name="country" class="form-control" value="{{form.country.data}}">
+                            <option value="Belgium">Belgium</option>
+                            <option value="France">France</option>
+                            <option value="England">England</option>
+                            <option value="Germany">Germany</option>
+                            <option value="Netherlands">Netherlands</option>
+                            <option value="Italy">Italy</option>
+                            <option value="Switzerland">Switzerland</option>
+                        </select>
+                    </div>
+                    hours: {{ user.hours}}
+                </div>
+            </div>
+            <h1>
+                description
+            </h1>
+            <div class="row justify-content-start-1">
+                <label for="description">description</label>
+                <input type="textarea" class="form-control" name="description" value="{{form.description.data}}">
+            </div>
+            <h1>
+                Services
+            </h1>
+            {% block services %}
+                to-do
+            {% endblock %}
+        </div>
+    </form>
+{% endblock %}
