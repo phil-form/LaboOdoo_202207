@@ -1,3 +1,4 @@
+from app.forms.user_register_form import UserRegisterform
 from app.models.address import Address
 from app.services.base_service import BaseService
 from app.models.user import User
@@ -52,8 +53,24 @@ class UserService(BaseService):
             return UserDTO.entity_to_dto(user)
         return {"errors" : "wrong password"}
 
-    def update(self, entity_id: int, data):
-        pass
+    def update(self, userid: int, data: UserRegisterform):
+        user = User.query.filter_by(user_id=userid).first()
+        if not user:
+            return None
+
+        attr = user.get_attributes()
+        for key, val in data.get_attributes().items():
+            if val and val != "":
+                attr[key] = val
+        user.load_from_attr_dict(attr)
+        print(user.get_attributes())
+
+        try:
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            db.session.rollback()
+        return user
 
     def delete(self, entity_id: int):
         pass

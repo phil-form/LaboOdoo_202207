@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from app.dtos.address_dto import AddressDTO
 from app.models.address import Address
 from app.models.user import User
@@ -54,3 +55,29 @@ class UserDTO():
         user.address.country = self.address.country
 
         return user
+
+    def get_attributes(self):
+        return {
+        "username":     self.username,
+        "firstname":    self.firstname,
+        "lastname":     self.lastname,
+        "mail":         self.mail,
+        "description":  self.description,
+        "street":       self.address.street,
+        "number":       self.address.number,
+        "zip_code":     self.address.zip,
+        "country":      self.address.country,
+        }
+
+    def load_from_attr_dict(self, dict: Dict[Any, Any]):
+        self.username        = dict['username']
+        self.firstname       = dict['firstname']
+        self.lastname        = dict['lastname']
+        self.mail            = dict['mail']
+        self.description     = dict['description']
+        self.address.street  = dict['street']
+        self.address.number  = dict['number']
+        self.address.zip     = dict['zip_code']
+        self.address.country = dict['country']
+
+        return self
