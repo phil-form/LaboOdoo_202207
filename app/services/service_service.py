@@ -1,12 +1,13 @@
-from app import db
-from flask import session
+from app                        import db
+from flask                      import session
 
-from app.dtos.service_dto import ServiceDTO
+from app.dtos.service_dto       import ServiceDTO
 from app.mappers.service_mapper import ServiceMapper
-from app.models.service import Service
-from app.models.user import User
-from app.services.base_service import BaseService
-
+from app.models.service         import Service
+from app.models.user            import User
+from app.services.base_service  import BaseService
+from app.models.user_service    import UserService
+from app.dtos.user_service_dto  import UserServiceDTO
 
 class ServiceService(BaseService):
 
@@ -18,6 +19,9 @@ class ServiceService(BaseService):
 
     def find_one_by(self, **kwargs):
         return ServiceDTO.build_from_entity(Service.query.filter_by(**kwargs).one())
+
+    def find_one_user_service(self, user_service_id: int):
+        return UserServiceDTO.build_from_entity(UserService.query.filter_by(user_service_id=user_service_id).one())
 
     def insert(self, data):
         service = Service()
