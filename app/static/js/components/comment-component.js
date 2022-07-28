@@ -8,7 +8,7 @@ export class CommentComponent {
     }
 
     initComment(data) {
-        this.card.classList.add('card', 'shadow', 'p-3', 'mb-5', 'bg-body', 'rounded');
+        this.card.classList.add('card', 'shadow', 'p-3', 'mb-3', 'bg-body', 'rounded');
         this.header.classList.add('card-header');
         this.body.classList.add('card-body');
 
@@ -27,7 +27,7 @@ export class CommentComponent {
 
         const content = document.createElement('p');
         const commentDate = document.createElement('footer');
-        commentDate.classList.add('blockquote-footer', 'mt-1');
+        commentDate.classList.add('blockquote-footer');
         content.innerText = data.content;
         commentDate.innerText = data.create_date;
 

@@ -1,14 +1,15 @@
-{% extends "layout/layout.html" %}
 {% block body %}
     <div class="container">
-        <h1 class="mb-3 mt-3">Comments</h1>      
+        <h1 class="mb-3 mt-3">Comments {{ service.service_id }}</h1>      
         <div id="comments"></div>
     </div>
     <script type="module">
         import { sendAjax } from '/static/js/ajax-tools.js';
         import { CommentComponent } from '/static/js/components/comment-component.js';
 
-        sendAjax('/comments/service')
+        let service_id = "{{ service.service_id }}";
+
+        sendAjax('/comments/service', 'post', service_id)
             .then((res) => {
                 const datas = JSON.parse(res);
 
