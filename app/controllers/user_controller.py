@@ -6,7 +6,7 @@ from app.dtos.user_dto import UserDTO
 from app.services.user_service import UserService
 from app.forms.user_register_form import UserRegisterform
 from app.forms.user_login_form import UserLoginform
-
+from app.models.user import User
 import os
 
 userservice = UserService()
@@ -15,10 +15,24 @@ userservice = UserService()
 def profile_list():
     return render_template('user/list.html', users=userservice.find_all())
 
-@app.route('/users/<string:username>')
-def profile_page(username: str):
-    full_filename = os.path.join('images/blank_profile.png')
-    return render_template('user/profile.html', user=userservice.find_one_by(username=username), profile_picture=url_for('static', filename=full_filename))
+@app.route('/users/<int:userid>', methods=['GET', 'POST'])
+def profile_page(userid: int):
+    return render_template('user/profile.html', user=userservice.find_one(entity_id=userid),
+                                                profile_picture=url_for('static', filename='images/blank_profile.png'))
+
+@app.route('/users/<int:userid>/edit', methods=['GET', 'POST'])
+def edit_profile(userid: int):
+    if request.method == "POST":
+        form = UserRegisterform(request.form)
+        user = userservice.update(userid, form)
+        return redirect(url_for('profile_page', userid=userid))
+    else:
+        form = UserRegisterform(request.form)
+        user = userservice.find_one(entity_id=userid)
+        form.load_from_DTO(user)
+        return render_template('user/profile_edit.html', user= user, form=form,
+                                                         profile_picture=url_for('static', filename='images/blank_profile.png'))
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
@@ -31,8 +45,7 @@ def login_page():
                 return render_template('user/login.html', form=form, errors=user)
             session['userid'] = user.user_id
             session['username'] = user.username
-            print(user.password)
-            return render_template('user/profile.html', user=user)
+            return redirect(url_for('profile_page', userid=user.user_id))
         else:
             return render_template('user/login.html', form=form, errors=form.errors)        
 
