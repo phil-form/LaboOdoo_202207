@@ -7,11 +7,18 @@ from app.services.user_service import UserService
 from app.forms.user_register_form import UserRegisterform
 from app.forms.user_login_form import UserLoginform
 
+import os
+
 userservice = UserService()
 
-@app.route('/user/<int:userid>')
-def profile_page(userid: int):
-    return render_template('user/profile.html', user=userservice.find_one(userid))
+@app.route('/users')
+def profile_list():
+    return render_template('user/list.html', users=userservice.find_all())
+
+@app.route('/users/<string:username>')
+def profile_page(username: str):
+    full_filename = os.path.join('images/blank_profile.png')
+    return render_template('user/profile.html', user=userservice.find_one_by(username=username), profile_picture=url_for('static', filename=full_filename))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():

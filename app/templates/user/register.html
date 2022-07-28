@@ -66,7 +66,7 @@
                 let jserrors = {{errors | tojson}};
                 for ( let item in jserrors) {
                     let elem = document.getElementsByName(item);
-                    elem[0].style.backgroundColor = "red";
+                    elem[0].style.borderColor = "red";
 
                     const childElem = document.createElement('p');
                     const elemErrors = jserrors[item];

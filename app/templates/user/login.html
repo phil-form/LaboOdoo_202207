@@ -24,12 +24,12 @@
             newElem.style.color = "red";
             if (jserrors.errors == "wrong password") {
                 elem = document.getElementsByName('password')[0];
-                elem.style.backgroundColor = "red";
+                elem.style.borderColor = "red";
                 newElem.innerText = "wrong password";
                 elem.insertAdjacentElement('afterend', newElem);
             } else {
                 let elem = document.getElementsByName('login')[0];
-                elem.style.backgroundColor = "red";
+                elem.style.borderColor = "red";
                 newElem.innerText = "user does not exist";
                 elem.insertAdjacentElement('afterend', newElem);
             }

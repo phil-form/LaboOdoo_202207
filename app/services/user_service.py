@@ -1,3 +1,4 @@
+from app.models.address import Address
 from app.services.base_service import BaseService
 from app.models.user import User
 from app.dtos.user_dto import UserDTO
@@ -8,13 +9,25 @@ from app.forms.user_login_form import UserLoginform
 
 class UserService(BaseService):
     def find_one(self, entity_id: int):
-        return UserDTO.entity_to_dto(User.query.filter_by(user_id= entity_id).one())
+        return UserDTO.entity_to_dto(User.query.filter_by(user_id= entity_id).first())
 
     def find_all(self):
-        pass
+        return [UserDTO.entity_to_dto(user) for user in User.query.all()]
 
     def find_one_by(self, **kwargs):
-        pass
+        try:
+            return UserDTO.entity_to_dto(User.query.filter_by(**kwargs).first())
+        except Exception as e:
+            print(e)
+            return None
+
+    def find_one_by_address(self, **kwargs):
+        try:
+            return UserDTO.entity_to_dto(User.query.join(Address).filter_by(**kwargs).first())
+        except Exception as e:
+            print(e)
+            return None
+
 
     def insert(self, data: UserDTO):
         user = data.dto_to_entity()
