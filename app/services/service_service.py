@@ -1,19 +1,29 @@
+from sqlalchemy import or_
+
 from app import db
 from flask import session
 
 from app.dtos.service_dto import ServiceDTO
-from app.framework.decorators.inject import inject
 from app.mappers.service_mapper import ServiceMapper
 from app.models.service import Service
 from app.models.user import User
 from app.services.base_service import BaseService
-from app.services.user_service import UserService
 
 
 class ServiceService(BaseService):
 
     def find_all(self):
         return [ServiceDTO.build_from_entity(service) for service in Service.query.all()]
+
+    def find_all_by(self, form):
+        keyword = form.search_content.data
+        # target = form.search_target.data
+        services = Service.query.filter(or_(
+            Service.name.like(f'%{keyword}%'),
+            Service.description.like(f'%{keyword}%'),
+            Service.type.has(name=keyword)
+        ))
+        return [ServiceDTO.build_from_entity(service) for service in services]
 
     def find_one(self, service_id: int):
         return ServiceDTO.build_from_entity(Service.query.filter_by(service_id=service_id).one())

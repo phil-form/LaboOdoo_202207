@@ -1,6 +1,7 @@
 from app import app
 from flask import render_template, request, redirect, url_for, session
 
+from app.forms.search_service_form import SearchServiceForm
 from app.forms.service_form import ServiceForm
 from app.framework.decorators.inject import inject
 from app.services.service_service import ServiceService
@@ -8,11 +9,15 @@ from app.services.service_service import ServiceService
 # TODO manage form errors
 
 
-@app.route('/services', methods=['GET'])
+@app.route('/services', methods=['GET', 'POST'])
 @inject
 def service_list(service_service: ServiceService):
-    services = service_service.find_all()
-    return render_template('service/service_list.html', services=services)
+    form = SearchServiceForm(request.form)
+    if request.method == 'GET':
+        services = service_service.find_all()
+    else:
+        services = service_service.find_all_by(form)
+    return render_template('service/service_list.html', services=services, form=form)
 
 
 @app.route('/services/new', methods=['GET', 'POST'])
