@@ -2,10 +2,12 @@ from app import db
 from flask import session
 
 from app.dtos.service_dto import ServiceDTO
+from app.framework.decorators.inject import inject
 from app.mappers.service_mapper import ServiceMapper
 from app.models.service import Service
 from app.models.user import User
 from app.services.base_service import BaseService
+from app.services.user_service import UserService
 
 
 class ServiceService(BaseService):
@@ -65,3 +67,16 @@ class ServiceService(BaseService):
             db.session.rollback()
 
         return service.service_id
+
+    def add_user(self, user_id, service_id):
+        service = Service.query.filter_by(service_id=service_id).one()
+        user = User.query.filter_by(user_id=user_id).one()
+        service.add_user(user)
+
+        try:
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            db.session.rollback()
+
+        return self.find_one(service_id)
