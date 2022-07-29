@@ -2,7 +2,10 @@
 {% block body %}
 <div id="service_list_view" class="col-8">
     <h1>All services</h1>
+    {% if session.get('userid') %}
     <a class="btn btn-primary" href="{{ url_for('service_add') }}">New service</a>
+    {% endif %}
+    {% include "service/search_form.html" %}
     <div id="service_list">
         <ul class="list-group">
             {% for service in services %}
