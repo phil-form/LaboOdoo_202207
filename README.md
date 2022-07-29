@@ -1,7 +1,7 @@
 # Labo 
 
 - [X] Créer la base du projet
-- [ ] Users (Profil) + Authentification (David)
+- [X] Users (Profil) + Authentification (David)
 - [ ] Comments + Rating (Amaury)
 - [ ] Services (Claire)
   - [x] Liste des services
