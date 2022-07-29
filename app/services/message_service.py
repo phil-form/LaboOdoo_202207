@@ -20,8 +20,7 @@ class MessageService(BaseService):
         ), or_(
             Message.to_user_id == user1_id,
             Message.to_user_id == user2_id
-        )).order_by(Message.createdate.desc())
-
+        )).order_by(Message.createdate.asc())
         return [MessageDTO.build_from_entity(message) for message in messages]
 
     def find_one(self, message_id: int):
@@ -34,8 +33,10 @@ class MessageService(BaseService):
         message = Message()
         if isinstance(form, MessageForm):
             message.content = form.content.data
-        message.from_user = User.query.filter_by(user_id=session.get('userid'))
-        message.to_user = User.query.filter_by(user_id=form.to_user_id.data)
+        message.from_user = User.query.filter_by(user_id=session.get('userid')).one()
+        print(message.from_user)
+        message.to_user = User.query.filter_by(user_id=form.to_user_id.data).one()
+        print(message.to_user)
         try:
             db.session.add(message)
             db.session.commit()

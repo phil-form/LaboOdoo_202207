@@ -6,7 +6,7 @@
 - [x] Services (Claire)
 - [ ] Prestations (Etienne)
 - [ ] Page de blog (David)
-- [ ] Messages privés (Claire)
+- [x] Messages privés (Claire)
 model view controller service dto mapper
 
 

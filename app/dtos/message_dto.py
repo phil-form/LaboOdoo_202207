@@ -18,6 +18,7 @@ class MessageDTO(AbstractDTO):
         message_dto.content = message.content
         message_dto.from_user = UserDTO.entity_to_dto(message.from_user)
         message_dto.to_user = UserDTO.entity_to_dto(message.to_user)
+        return message_dto
 
     @staticmethod
     def get_json_parsable(self):

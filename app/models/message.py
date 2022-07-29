@@ -11,3 +11,6 @@ class Message(db.Model, BaseEntity):
 
     from_user = db.relationship('User', foreign_keys=[from_user_id])
     to_user = db.relationship('User', foreign_keys=[to_user_id])
+
+    def __str__(self):
+        return f'[Message] from {self.from_user.username} to {self.to_user.username} : \"{self.content}\"'

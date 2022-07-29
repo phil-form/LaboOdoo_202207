@@ -4,7 +4,8 @@
     {% for message in messages %}
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">{{ message.from_user.username }}</h5>
+                <h5 class="card-title">{{ message.from_user.username }} </h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ message.createdate }}</h6>
                 <p class="card-text">{{ message.content }}</p>
             </div>
         </div>
