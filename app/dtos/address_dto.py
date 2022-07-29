@@ -3,11 +3,11 @@ from app.models.address import Address
 class AddressDTO():
     def __init__(self) -> None:
         self.address_id = None
-        self.street = None
-        self.number = None
-        self.zip = None
-        self.locality = None
-        self.country = None
+        self.street     = None
+        self.number     = None
+        self.zip        = None
+        self.locality   = None
+        self.country    = None
 
     def getDTO(self):
         return self
@@ -20,13 +20,25 @@ class AddressDTO():
 
     @staticmethod
     def entity_to_dto(address: Address):
-        addressdto = AddressDTO()
+        dto = AddressDTO()
 
-        addressdto.addressid = address.address_id
-        addressdto.street = address.street 
-        addressdto.number = address.number 
-        addressdto.zip = address.zip
-        addressdto.locality = address.locality 
-        addressdto.country = address.country
+        dto.address_id = address.address_id
+        dto.street     = address.street 
+        dto.number     = address.number 
+        dto.zip        = address.zip
+        dto.locality   = address.locality 
+        dto.country    = address.country
 
-        return addressdto
+        return dto
+
+    def dto_to_entity(self):
+        entity = Address()
+
+        entity.address_id = self.address_id
+        entity.street     = self.street
+        entity.number     = self.number
+        entity.zip        = self.zip
+        entity.locality   = self.locality
+        entity.country    = self.country
+
+        return entity

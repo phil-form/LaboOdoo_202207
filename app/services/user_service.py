@@ -1,11 +1,17 @@
-from app.forms.user_register_form import UserRegisterform
-from app.models.address import Address
-from app.services.base_service import BaseService
-from app.models.user import User
-from app.dtos.user_dto import UserDTO
-from app import db
 from bcrypt import gensalt, hashpw, checkpw
-from app.forms.user_login_form import UserLoginform
+from app    import db
+
+from app.models.address import Address
+from app.models.user    import User
+from app.models.role    import Role
+
+from app.services.base_service import BaseService
+
+from app.forms.user_register_form import UserRegisterform
+from app.forms.user_login_form    import UserLoginform
+
+from app.dtos.user_dto import UserDTO
+
 
 
 class UserService(BaseService):
@@ -13,7 +19,7 @@ class UserService(BaseService):
         return UserDTO.entity_to_dto(User.query.filter_by(user_id= entity_id).first())
 
     def find_all(self):
-        return [UserDTO.entity_to_dto(user) for user in User.query.all()]
+        return [UserDTO.entity_to_dto(user) for user in User.query.filter_by().all()]
 
     def find_one_by(self, **kwargs):
         try:
@@ -34,8 +40,9 @@ class UserService(BaseService):
         user = data.dto_to_entity()
         encrypted_pass = hashpw(user.password.encode('utf-8'), gensalt()).decode('utf-8')
         user.password = encrypted_pass
-
         try:
+            role_user = Role.query.filter_by(rolename="USER").first()
+            user.add_role(role_user)
             db.session.add(user)
             db.session.commit()
         except Exception as e:
@@ -63,7 +70,6 @@ class UserService(BaseService):
             if val and val != "":
                 attr[key] = val
         user.load_from_attr_dict(attr)
-        print(user.get_attributes())
 
         try:
             db.session.commit()
@@ -74,3 +80,11 @@ class UserService(BaseService):
 
     def delete(self, entity_id: int):
         pass
+
+    def add_role(self, userid: int, role: Role):
+        user = User.query.filter_by(user_id=userid).first()
+        if not user:
+            return None
+
+        user.add_role(role)
+        db.session.commit()

@@ -1,7 +1,7 @@
 # Labo 
 
 - [X] Créer la base du projet
-- [ ] Users (Profil) + Authentification (David)
+- [X] Users (Profil) + Authentification (David)
 - [ ] Comments + Rating (Amaury)
 - [ ] Services (Claire)
   - [x] Liste des services
@@ -13,6 +13,7 @@
   - [ ] Gérer les actions en fonction de l'authentification
   - [x] Check qu'on a injecté les services partout où c'est possible
 - [ ] Prestations (Etienne)
+- [ ] Page de blog (David)
 
 model view controller service dto mapper
 
