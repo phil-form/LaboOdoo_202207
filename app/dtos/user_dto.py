@@ -53,12 +53,8 @@ class UserDTO():
         user.description = self.description
 
         user.address     = self.address.dto_to_entity()
-        user.roles       = [RoleDTO.dto_to_entity]
+        user.roles       = [role.dto_to_entity() for role in self.roles]
 
-        # user.address.street  = self.address.street
-        # user.address.number  = self.address.number
-        # user.address.zip     = self.address.zip
-        # user.address.country = self.address.country
         return user
 
     def get_attributes(self):

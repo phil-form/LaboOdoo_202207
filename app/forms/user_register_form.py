@@ -22,6 +22,7 @@ class UserRegisterform(FlaskForm):
 
     def get_as_userDTO(self):
         dto = UserDTO()
+        
         dto.username        = self.username.data
         dto.firstname       = self.first_name.data
         dto.lastname        = self.last_name.data

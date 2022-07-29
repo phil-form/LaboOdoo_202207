@@ -40,9 +40,8 @@ class UserService(BaseService):
         user = data.dto_to_entity()
         encrypted_pass = hashpw(user.password.encode('utf-8'), gensalt()).decode('utf-8')
         user.password = encrypted_pass
-
         try:
-            role_user = Role.query.filter_by(rolename="USER").one()
+            role_user = Role.query.filter_by(rolename="USER").first()
             user.add_role(role_user)
             db.session.add(user)
             db.session.commit()
