@@ -54,7 +54,7 @@ def login_page(userservice: UserService):
                 return render_template('user/login.html', form=form, errors=user)
             session['userid'] = user.user_id
             session['username'] = user.username
-            return redirect(url_for('profile_page', userservice=userservice, userid=user.user_id))
+            return redirect(url_for('profile_page', userid=user.user_id))
         else:
             return render_template('user/login.html', form=form, errors=form.errors)        
 

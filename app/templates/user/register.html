@@ -63,7 +63,7 @@
         <button class="btn btn-primary" type="submit">Submit form</button>
         {% if errors %}
             <script>
-                let jserrors = {{errors | tojson}};
+                let jserrors = {{ errors | tojson }};
                 for ( let item in jserrors) {
                     let elem = document.getElementsByName(item);
                     elem[0].style.borderColor = "red";
