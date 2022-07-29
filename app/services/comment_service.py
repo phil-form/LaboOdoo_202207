@@ -34,14 +34,15 @@ class CommentService(BaseService):
 
         return self.find_one(comment.comment_id)
 
-    def update(self, entity_id: int, data):
+    def update(self, entity_id: int, content):
         comment = Comment.query.filter_by(comment_id=entity_id).one()
 
         if comment is None:
             return None
 
-        CommentMapper.form_to_entity(data, comment)
-        try:
+        CommentMapper.content_data_to_entity(content, comment)
+
+        try:           
             db.session.commit()
         except Exception as e:
             print(e)
