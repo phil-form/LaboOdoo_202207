@@ -3,18 +3,10 @@
 - [X] Créer la base du projet
 - [X] Users (Profil) + Authentification (David)
 - [ ] Comments + Rating (Amaury)
-- [ ] Services (Claire)
-  - [x] Liste des services
-    - [x] Ajouter la recherche de services selon plusieurs paramètres
-  - [x] Form du service
-    - [ ] Gérer les erreurs du form
-  - [x] Détail d'un service
-    - [x] Permettre à un utilisateur de proposer le même service
-  - [ ] Gérer les actions en fonction de l'authentification
-  - [x] Check qu'on a injecté les services partout où c'est possible
+- [x] Services (Claire)
 - [ ] Prestations (Etienne)
 - [ ] Page de blog (David)
-
+- [ ] Messages privés (Claire)
 model view controller service dto mapper
 
 
