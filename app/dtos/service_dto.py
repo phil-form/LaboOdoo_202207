@@ -28,6 +28,9 @@ class ServiceDTO(AbstractDTO):
             service_dto.users.append(UserDTO.entity_to_dto(user))
         return service_dto
 
+    def is_user_related(self, user_id):
+        return user_id in [user.user_id for user in self.users]
+
     def get_json_parsable(self):
         return self.__dict__
 

@@ -3,6 +3,7 @@ from flask import render_template, request, redirect, url_for, session
 
 from app.forms.search_service_form import SearchServiceForm
 from app.forms.service_form import ServiceForm
+from app.framework.decorators.auth_required import auth_required
 from app.framework.decorators.inject import inject
 from app.services.service_service import ServiceService
 
@@ -21,6 +22,7 @@ def service_list(service_service: ServiceService):
 
 
 @app.route('/services/new', methods=['GET', 'POST'])
+@auth_required()
 @inject
 def service_add(service_service: ServiceService):
     form = ServiceForm(request.form)
@@ -33,6 +35,7 @@ def service_add(service_service: ServiceService):
 
 
 @app.route('/services/update/<int:service_id>', methods=['GET', 'POST'])
+@auth_required()
 @inject
 def service_update(service_id: int, service_service: ServiceService):
     service = service_service.find_one(service_id)
@@ -57,6 +60,7 @@ def service_detail(service_id: int, service_service: ServiceService):
 
 
 @app.route('/services/addUser/<int:service_id>', methods=['GET'])
+@auth_required()
 @inject
 def service_add_user(service_id: int, service_service: ServiceService):
     service = service_service.add_user(session.get("userid"), service_id)

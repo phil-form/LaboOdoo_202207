@@ -10,23 +10,26 @@
     <div id="users_linked_to_service">
         <h3>Users {% if service.request %}requesting{% else %}offering{% endif %} the service:
         {% for user in service.users %}
-            <span class="badge bg-secondary rounded-pill">{{user.username}}</span> <!-- FIXME insert link to user's profile page ? -->
+            <span class="badge bg-secondary rounded-pill" href="{{ url_for('profile_page', userid=user.user_id) }}">
+                {{user.username}}
+            </span>
         {% endfor %}
         </h3>
     </div>
     <div class="row">
-        <!-- FIXME remove comments when authentication is done -->
-        {#{% if session.get('userid') in [u.user_id for u in service.users] %}#}
+        {% if service.is_user_related(session.get('userid')) %}
         <div class="col-6">
             <a class="w-100 btn btn-primary" href="{{ url_for('service_update', service_id=service.service_id) }}">Edit</a>
         </div>
-        {#{% else %}#}
-        <div class="col-6">
-            <a class="w-100 btn btn-primary" href="{{ url_for('index') }}">
-                {% if service.request %}Request{% else %}Offer{% endif %} the same service
-            </a>
-        </div>
-        {#{% endif %}#}
+        {% else %}
+            {% if session.get('userid') %}
+            <div class="col-6">
+                <a class="w-100 btn btn-primary" href="{{ url_for('service_add_user', service_id=service.service_id, user_id=session.get('userid')) }}">
+                    {% if service.request %}Request{% else %}Offer{% endif %} the same service
+                </a>
+            </div>
+            {% endif %}
+        {% endif %}
     </div>
 </div>
 {% include "comment/comments.html" %}

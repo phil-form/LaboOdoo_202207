@@ -38,8 +38,8 @@ class ServiceService(BaseService):
     def insert(self, data):
         service = Service()
         ServiceMapper.form_to_entity(data, service)
-        # FIXME when david is done with users
-        user = User.query.filter_by(user_id=1).one()
+        user_id = session.get('userid')
+        user = User.query.filter_by(user_id=user_id).one()
         service.add_user(user)
         print(service)
 
