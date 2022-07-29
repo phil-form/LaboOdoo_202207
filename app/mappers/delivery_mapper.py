@@ -1,7 +1,5 @@
 from app.mappers.abstract_mapper    import AbstractMapper
-
 from app.dtos.delivery_dto          import DeliveryDTO
-#from app.forms
 from app.models.delivery            import Delivery
 
 class DeliveryMapper(AbstractMapper):
@@ -11,14 +9,15 @@ class DeliveryMapper(AbstractMapper):
 
     @staticmethod
     def form_to_entity(form, delivery: Delivery):
-        delivery.client_id          = int                    (form.clientname.data)
-        delivery.start_date         =                         form.startdate.data
-        delivery.duration           = DeliveryMapper.conv_dur(form.duration.data)
-        delivery.duration_effective = DeliveryMapper.conv_dur(form.durationeff.data)
-        delivery.done               =                         form.done.data
+        delivery.user_service_id    = int                      (form.usrsrv.data)
+        delivery.client_id          = int                      (form.clientname.data)
+        delivery.start_date         =                           form.startdate.data
+        delivery.duration           = DeliveryMapper.dur_to_int(form.duration.data)
+        delivery.duration_effective = DeliveryMapper.dur_to_int(form.durationeff.data)
+        delivery.done               =                           form.done.data
 
     @staticmethod
-    def conv_dur(dur_str: str) -> int:
+    def dur_to_int(dur_str: str) -> int:
         if dur_str == None:
             return None
 
@@ -27,3 +26,10 @@ class DeliveryMapper(AbstractMapper):
         m  = int(hm[1])
 
         return (60 * h) + m
+
+    def xyz():
+        x = DeliveryDTO()
+        x.client.firstname
+        x.user_serv.rel_service.type
+        x.user_serv.user.firstname
+        x.user_serv.service.type

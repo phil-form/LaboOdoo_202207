@@ -1,5 +1,8 @@
-from app.dtos.abstract_dto  import AbstractDTO
-from app.models.delivery    import Delivery
+from app.dtos.abstract_dto      import AbstractDTO
+from app.dtos.user_dto          import UserDTO
+from app.dtos.service_dto       import ServiceDTO
+from app.dtos.user_service_dto  import UserServiceDTO
+from app.models.delivery        import Delivery
 
 class DeliveryDTO(AbstractDTO):
     def __init__(self):
@@ -12,6 +15,11 @@ class DeliveryDTO(AbstractDTO):
         self.done               = None
         self.rating             = None
 
+        self.client             = UserDTO()
+        self.user_serv          = UserServiceDTO()
+        #self.user               = UserDTO()
+        #self.service            = ServiceDTO()
+    
     @staticmethod
     def build_from_entity(entity):
         delivery_dto = DeliveryDTO()
@@ -25,6 +33,9 @@ class DeliveryDTO(AbstractDTO):
             delivery_dto.duration_effective = entity.duration_effective
             delivery_dto.done               = entity.done
             delivery_dto.rating             = entity.rating
+
+            delivery_dto.client             = UserDTO.entity_to_dto           (entity.client)
+            delivery_dto.user_serv          = UserServiceDTO.build_from_entity(entity.user_serv)
 
         return delivery_dto
 

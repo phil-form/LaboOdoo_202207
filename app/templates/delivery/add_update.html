@@ -4,24 +4,27 @@
     <form id="add_update_delivery" method="post">
         {{ form.csrf_token }}
         {% if clid == -1 %}
+            <!-- add -->
             <h3>Création d'une prestation</h3>
         {% else %}
+            <!-- update -->
             <h3>Mise à jour d'une prestation</h3>
         {% endif %}
+        <input type="text" name="usrsrv" id="usrsrv" value="{{ form.usrsrv.data if form.usrsrv.data else delivery.user_service_id }}" hidden>
         <p>
             <span>
                 <label for="workername">Prestataire: </label>
-                <input type="text"   name="workername"     id="workername"     value="{{ user.first_name + ' ' + user.last_name }}" disabled>
+                <input type="text"   name="workername"     id="workername"     value="{{ user.firstname + ' ' + user.lastname }}" disabled>
                 <a     type="button" name="workerdetails"  id="workerdetails"
-                       href="{{ url_for('profile_page', userid=user.user_id) }}">Détails</a>
+                       href="{{ url_for('profile_page', username=user.user_name) }}">Détails</a>
             </span>
         </p>
         <p>
             <span>
                 <label for="servicename">Service: </label>
-                <input type="text"   name="servicename"    id="servicename"    value="{{ service.name + ' (' + srvtype + ')' }}" disabled>
+                <input type="text"   name="servicename"    id="servicename"    value="{{ service.name + ' (' + service.type.name + ')' }}" disabled>
                 <a     type="button" name="servicedetails" id="servicedetails"
-                       href="{{ url_for('profile_page', userid=service.service_id) }}">pas encore prêt ...</a>
+                       href="{{ url_for('service_detail', service_id=service.service_id) }}">Détails</a>
             </span>
         </p>
 
@@ -29,19 +32,23 @@
             <span>
                 <label for="clientname">Client: </label>
                 {% if clid == -1 %}
-                    <select name="clientname" id="clientname" required value="{{ form.clientname.data }}" placeholder="Choisissez">
+                    <!-- add -->
+                    <select name="clientname" id="clientname" placeholder="Choisissez">
+                        <!-- first option to keep placeholder visible -->
+                        <option value="" disabled selected hidden></option>
                         {% for usr in usr_lst %}
-                            <option value="{{ usr.user_id }}"> {{ usr.first_name + " " + usr.last_name }} </option>
+                            <option value="{{ usr.user_id }}"> {{ usr.firstname + " " + usr.lastname }} </option>
                         {% endfor %}
                     </select>
                 {% else %}
+                    <!-- update -->
                     <select name="clientname" id="clientname" disabled value="{{ delivery.client_id }}">
                         {% for usr in usr_lst %}
                             <option value="{{ usr.user_id }}"
                                 {% if clid == usr.user_id %}
                                     selected
                                 {% endif %}>
-                                {{ usr.first_name + " " + usr.last_name }}
+                                {{ usr.firstname + " " + usr.lastname }}
                             </option>
                         {% endfor %}
                     </select>
@@ -49,17 +56,19 @@
                 {% if form.errors and "clientname" in form.errors.keys() %}
                     {{ form.errors['clientnames'] }}
                 {% endif %}
-                <a     type="button" name="clientdetails" id="clientdetails"
-                       href="{{ '#' }}">Détails</a>
+                <!-- href "#" will be set when select an option in list (see below) -->
+                <a type="button" name="clientdetails" id="clientdetails" href="{{ '#' }}">Détails</a>
             </span>
         </p>
         <p>
             <span>
                 <label for="startdate">Date (de début): </label>
                 {% if clid == -1 %}
+                    <!-- add -->
                     <input type="date" name="startdate" id="startdate" required value="{{ form.startdate.data }}" placeholder="dd-mm-aaaa">
                 {% else %}
-                    <input type="date" name="startdate" id="startdate" disabled value="{{ delivery.start_date }}">
+                    <!-- update, need to format date -->
+                    <input type="date" name="startdate" id="startdate" disabled value="{{ delivery.start_date.strftime('%Y-%m-%d') }}">
                 {% endif %}
                 {% if form.errors and "startdate" in form.errors.keys() %}
                     {{ form.errors['startdate'] }}
@@ -70,9 +79,11 @@
             <span>
                 <label for="duration">Durée prévue: </label>
                 {% if clid == -1 %}
+                    <!-- add -->
                     <input type="text" name="duration" id="duration" required value="{{ form.duration.data if form.duration.data else '' }}" placeholder="h:mm">
                 {% else %}
-                    <input type="text" name="duration" id="duration" disabled value="{{ delivery.duration }}">
+                    <!-- update -->
+                    <input type="text" name="duration" id="duration" disabled value="{{ dur_str }}">
                 {% endif %}
                 {% if form.errors and "duration" in form.errors.keys() %}
                     {{ form.errors['duration'] }}
@@ -81,10 +92,11 @@
         </p>
 
         {% if clid != -1 %}
+            <!-- update (hidden for add) -->
             <p>
                 <span>
                     <label for="durationeff">Durée effective: </label>
-                    <input type="text" name="durationeff" id="durationeff" placeholder="h:mm" required value="{{ form.durationeff.data if form.durationeff.data else '' }}">
+                    <input type="text" name="durationeff" id="durationeff" placeholder="h:mm" required value="{{ eff_str if form.durationeff.data else '' }}">
                     {% if form.errors and "durationeff" in form.errors.keys() %}
                         {{ form.errors['durationeff'] }}
                     {% endif %}
@@ -106,6 +118,7 @@
         </p>
     </form>
 
+    <!-- to update href for details on client -->
     <script type="module">
         document.getElementById('clientname').addEventListener('onchange', (e) =>
         {

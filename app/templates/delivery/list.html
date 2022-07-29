@@ -1,0 +1,37 @@
+{% extends 'layout/layout.html' %}
+{% block body %}
+<style>
+    .tbl {
+        border: 1px solid;
+    }
+    .tblrow {
+        border: 1px solid;
+    }
+    .tblcell {
+        border: 1px solid;
+    }
+</style>
+<h3>Liste des prestations</h3>
+<table class="tbl">
+    <thead>
+        <tr class="tblrow">
+            <th class="tblcell">Id</th>
+            <th class="tblcell">Prestataire</th>
+            <th class="tblcell">Service</th>
+            <th class="tblcell">Client</th>
+            <th class="tblcell">Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for dlv in delivers %}
+            <tr class="tblrow">
+                <td class="tblcell"><a href="/delivery/update/{{ dlv.delivery_id }}">{{ dlv.delivery_id }}</a></td>
+                <td class="tblcell">{{ dlv.user_serv.user.firstname + " " + dlv.user_serv.user.lastname }}</td>
+                <td class="tblcell">{{ dlv.user_serv.service.name + " (" + dlv.user_serv.service.type.name + ")" }}</td>
+                <td class="tblcell">{{ dlv.client.firstname + " " + dlv.client.lastname }}</td>
+                <td class="tblcell">{{ dlv.start_date.strftime('%d-%m-%Y') }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

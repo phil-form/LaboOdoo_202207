@@ -11,3 +11,8 @@ class Delivery(db.Model, BaseEntity):
     duration_effective = db.Column(db.Integer)
     done               = db.Column(db.Boolean, nullable=False, default=False)
     rating             = db.Column(db.Integer)
+
+    #client             = db.relationship("User"       , back_populates="deliveries")
+    #user_serv          = db.relationship("UserService", back_populates="deliveries")
+    client             = db.relationship("User")
+    user_serv          = db.relationship("UserService")
