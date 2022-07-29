@@ -20,12 +20,18 @@
                 <input class="form-check-input" type="radio" name="request" id="service_offer"
                        value="offer" {% if not form.request.data %}checked{% endif %}>
             </div>
+            {% if form.errors and "request" in form.errors.keys() %}
+            <small class="text-danger">{{ form.errors['request'] }}</small>
+            {% endif %}
         </div>
         <!-- name -->
         <div class="form-group">
             <label for="service_name">Service name</label>
             <input type="text" class="form-control" id="service_name" name="name"
                    placeholder="Enter name" value="{{form.name.data}}" required>
+            {% if form.errors and "name" in form.errors.keys() %}
+            <small class="text-danger">{{ form.errors['name'] }}</small>
+            {% endif %}
         </div>
         <!-- type -->
         <div class="form-group">
@@ -38,12 +44,18 @@
                 </option>
                 {% endfor %}
             </select>
+            {% if form.errors and "service_type" in form.errors.keys() %}
+            <small class="text-danger">{{ form.errors['service_type'] }}</small>
+            {% endif %}
         </div>
         <!-- description -->
         <div class="form-group">
             <label for="service_description">Description</label>
             <textarea class="form-control" id="service_description" name="description"
                       rows="2">{{form.description.data}}</textarea>
+            {% if form.errors and "description" in form.errors.keys() %}
+            <small class="text-danger">{{ form.errors['description'] }}</small>
+            {% endif %}
         </div>
         <!-- submit -->
         <div class="row">

@@ -30,8 +30,7 @@ def service_add(service_service: ServiceService):
         if form.validate():
             service = service_service.insert(form)
             return redirect(url_for('service_detail', service_id=service.service_id))
-    print(form.errors)
-    return render_template('service/service_form.html', service=None, form=form)
+    return render_template('service/service_form.html', service=None, form=form, errors=form.errors)
 
 
 @app.route('/services/update/<int:service_id>', methods=['GET', 'POST'])
@@ -49,7 +48,7 @@ def service_update(service_id: int, service_service: ServiceService):
     form.service_type.data = service.type.name
     form.request.data = service.request
     form.description.data = service.description
-    return render_template('service/service_form.html', service=service, form=form)
+    return render_template('service/service_form.html', service=service, form=form, errors=form.errors)
 
 
 @app.route('/services/<int:service_id>', methods=['GET'])
