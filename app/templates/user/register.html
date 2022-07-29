@@ -70,11 +70,14 @@
 
                     const childElem = document.createElement('p');
                     const elemErrors = jserrors[item];
-
+                    
+                    console.log(item)
                     if (elemErrors[0] != "Invalid input.")
                         childElem.innerText += elemErrors[0];
-                    else
+                    else if (item === 'password')
                         childElem.innerText += " password must contain at least 8 characters";
+                    else if (item === 'mail')
+                        childElem.innerText += " invalid e-mail address";
 
                     childElem.style.color = "red"
                     console.log(jserrors[item])

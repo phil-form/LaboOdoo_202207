@@ -8,7 +8,7 @@ class UserRegisterform(FlaskForm):
     first_name  = StringField('first_name', validators=[DataRequired()], default="")
     last_name   = StringField('last_name',  validators=[DataRequired()], default="")
     mail        = EmailField('mail',        validators=[DataRequired(),
-                                                        Regexp('[a-zA-Z](\w+\.?)*@[a-zA-Z]\w+\.[a-zA-Z]\w+(.[a-zA-Z]{1,4})*')], default="")
+                                                        Regexp('[a-zA-Z](\w+\-?\.?)*@[a-zA-Z]\w+\.[a-zA-Z]\w+(.[a-zA-Z]{1,4})*')], default="")
     password    = StringField('password',   validators=[DataRequired(), EqualTo('confirm'),
                                                         Regexp('^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{2,}$')], default="")
     confirm     = StringField('confirm',    validators=[DataRequired(), EqualTo('password')], default="")
@@ -22,6 +22,7 @@ class UserRegisterform(FlaskForm):
 
     def get_as_userDTO(self):
         dto = UserDTO()
+
         dto.username        = self.username.data
         dto.firstname       = self.first_name.data
         dto.lastname        = self.last_name.data
