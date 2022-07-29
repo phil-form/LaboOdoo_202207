@@ -6,20 +6,21 @@ from app.models.role import Role
 
 class User(db.Model, BaseEntity):
     __tablename__ = "users"
-    user_id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True, nullable=False, index=True)
-    password = db.Column(db.String(256), nullable=False)
-    first_name = db.Column(db.String(50), nullable=False)
-    last_name = db.Column(db.String(50), nullable=False)
-    mail = db.Column(db.String(100))
+
+    user_id     = db.Column(db.Integer,     primary_key=True)
+    username    = db.Column(db.String(50),  unique=True, nullable=False, index=True)
+    password    = db.Column(db.String(256), nullable=False)
+    first_name  = db.Column(db.String(50),  nullable=False)
+    last_name   = db.Column(db.String(50),  nullable=False)
+    mail        = db.Column(db.String(100))
     description = db.Column(db.Text)
-    hours = db.Column(db.Integer)
+    hours       = db.Column(db.Integer)
 
     address_id = db.Column(db.ForeignKey("address.address_id"))
-    address = db.relationship("Address", back_populates="users")
+    address    = db.relationship("Address", back_populates="users")
 
-    services = db.relationship('UserService', cascade='all')
-    roles    = db.relationship('UserRole', cascade='all')
+    services   = db.relationship('UserService', cascade='all')
+    roles      = db.relationship('UserRole'   , cascade='all')
 
     def get_attributes(self):
         return {
@@ -51,8 +52,10 @@ class User(db.Model, BaseEntity):
         if role in self.roles:
             return
 
-        print('coucou')
         userrole = UserRole()
         userrole.rel_role = role
         userrole.rel_user = self
         self.roles.append(userrole)
+
+    def get_roles(self):
+        return [role.rel_role.rolename for role in self.roles]

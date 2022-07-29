@@ -1,29 +1,36 @@
+from flask import render_template, session, request, url_for, redirect
+
 from app import app
 from app import db
 
-from flask import render_template, session, request, url_for, redirect
-from app.dtos.user_dto import UserDTO
-from app.models.role import Role
+from app.models.role    import Role
+from app.models.user    import User
+from app.dtos.user_dto  import UserDTO
 
-from app.services.user_service import UserService
 from app.forms.user_register_form import UserRegisterform
-from app.forms.user_login_form import UserLoginform
-from app.models.user import User
-import os
+from app.forms.user_login_form    import UserLoginform
 
-userservice = UserService()
+from app.services.user_service    import UserService
+
+from app.framework.decorators.auth_required import auth_required
+from app.framework.decorators.inject        import inject
+
 
 @app.route('/users')
-def profile_list():
+@inject
+def profile_list(userservice: UserService):
     return render_template('user/list.html', users=userservice.find_all())
 
-@app.route('/users/<int:userid>', methods=['GET', 'POST'])
-def profile_page(userid: int):
+@app.route('/users/<int:userid>', methods=['GET'])
+@inject
+def profile_page(userid: int, userservice: UserService):
     return render_template('user/profile.html', user=userservice.find_one(entity_id=userid),
                                                 profile_picture=url_for('static', filename='images/blank_profile.png'))
 
 @app.route('/users/<int:userid>/edit', methods=['GET', 'POST'])
-def edit_profile(userid: int):
+@auth_required()
+@inject
+def edit_profile(userid: int, userservice: UserService):
     form = UserRegisterform(request.form)
     if request.method == "POST":        
         user = userservice.update(userid, form)
@@ -36,7 +43,8 @@ def edit_profile(userid: int):
 
 
 @app.route('/login', methods=['GET', 'POST'])
-def login_page():
+@inject
+def login_page(userservice: UserService):
     form = UserLoginform(request.form)
     if request.method == "POST":
         if form.validate():
@@ -46,14 +54,15 @@ def login_page():
                 return render_template('user/login.html', form=form, errors=user)
             session['userid'] = user.user_id
             session['username'] = user.username
-            return redirect(url_for('profile_page', userid=user.user_id))
+            return redirect(url_for('profile_page', userservice=userservice, userid=user.user_id))
         else:
             return render_template('user/login.html', form=form, errors=form.errors)        
 
     return render_template('user/login.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
-def register_page():
+@inject
+def register_page(userservice: UserService):
     form = UserRegisterform(request.form)
     if request.method == "POST":
         if form.validate():
@@ -68,13 +77,15 @@ def register_page():
     return render_template('user/register.html', form=form)
 
 @app.route('/logout')
+@auth_required()
 def logout():
     session.pop('userid')
     session.pop('username')
     return redirect(url_for('index'))
 
 @app.route('/test')
-def test():
+@inject
+def test(userservice: UserService):
     role = Role.query.filter_by(rolename='USER').first()
     user = User.query.filter_by(user_id=1).first()
     userservice.add_role(user.user_id, role)

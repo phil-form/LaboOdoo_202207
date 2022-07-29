@@ -19,7 +19,7 @@ class UserService(BaseService):
         return UserDTO.entity_to_dto(User.query.filter_by(user_id= entity_id).first())
 
     def find_all(self):
-        return [UserDTO.entity_to_dto(user) for user in User.query.all()]
+        return [UserDTO.entity_to_dto(user) for user in User.query.filter_by().all()]
 
     def find_one_by(self, **kwargs):
         try:
