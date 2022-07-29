@@ -10,8 +10,8 @@ def auth_required(level="USER", or_is_current_user=False):
     def auth_required_decorator(func):
         @wraps(func)
         @inject
-        def function_wrapper(authService:AuthService, *args, **kwargs):
-            current_user = authService.get_current_user()
+        def function_wrapper(auth_service: AuthService, *args, **kwargs):
+            current_user = auth_service.get_current_user()
             if level in current_user.get_roles():
                 return func(*args, **kwargs)
 

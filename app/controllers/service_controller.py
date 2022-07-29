@@ -7,8 +7,6 @@ from app.framework.decorators.auth_required import auth_required
 from app.framework.decorators.inject import inject
 from app.services.service_service import ServiceService
 
-# TODO manage form errors
-
 
 @app.route('/services', methods=['GET', 'POST'])
 @inject
@@ -19,7 +17,6 @@ def service_list(service_service: ServiceService):
     else:
         services = service_service.find_all_by(form)
     return render_template('service/service_list.html', services=services, form=form)
-
 
 @app.route('/services/new', methods=['GET', 'POST'])
 @auth_required()

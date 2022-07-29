@@ -1,0 +1,20 @@
+<form method="post">
+    {{ form.csrf_token }}
+    <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
+        <div class="input-group">
+            <!-- content -->
+            <input type="integer" id="to_user_id" name="to_user_id"
+                   value="{{form.to_user_id.data}}" hidden>
+            <!-- content -->
+            <input type="textarea" id="content" name="content"
+                   placeholder="Write your message ..." aria-describedby="button-addon1"
+                   class="form-control border-0 bg-light" value="{{form.content.data}}" required>
+            {% if form.errors and "content" in form.errors.keys() %}
+            <small class="text-danger">{{ form.errors['content'] }}</small>
+            {% endif %}
+            <div class="input-group-append">
+                <button id="button-addon1" type="submit" class="btn text-primary">Send</button>
+            </div>
+        </div>
+    </div>
+</form>

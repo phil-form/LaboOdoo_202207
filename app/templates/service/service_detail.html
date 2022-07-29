@@ -10,9 +10,9 @@
     <div id="users_linked_to_service">
         <h3>Users {% if service.request %}requesting{% else %}offering{% endif %} the service:
         {% for user in service.users %}
-            <span class="badge bg-secondary rounded-pill" href="{{ url_for('profile_page', userid=user.user_id) }}">
+            <a class="badge bg-secondary rounded-pill" href="{{ url_for('profile_page', userid=user.user_id) }}">
                 {{user.username}}
-            </span>
+            </a>
         {% endfor %}
         </h3>
     </div>
