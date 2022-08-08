@@ -32,5 +32,7 @@
         {% endif %}
     </div>
 </div>
-{% include "comment/comments.html" %}
+{% with id=service.service_id %}
+    {% include "comment/comments.html" %}
+{% endwith %}
 {% endblock %}

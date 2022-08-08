@@ -15,3 +15,9 @@ class CommentMapper(AbstractMapper):
             comment.content = form.content.data
 
         return comment
+
+    @staticmethod
+    def content_data_to_entity(content, comment: Comment):
+        comment.content = content
+
+        return comment

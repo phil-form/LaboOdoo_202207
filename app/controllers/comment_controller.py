@@ -1,6 +1,6 @@
 from app import app
 from app.services.comment_service import CommentService
-from flask import render_template, request, redirect, url_for, jsonify
+from flask import render_template, request, redirect, url_for, jsonify, json
 from app.framework.decorators.inject import inject
 from app.forms.comment.comment_add_form import CommentAddForm
 
@@ -41,6 +41,30 @@ def add_comment(comment_service: CommentService):
             return jsonify(res)
 
     return render_template('comment/new_comment.html', form=form)
+
+@app.route('/comments/update', methods=['POST'])
+@inject
+def update_comment(comment_service: CommentService):
+    data = json.loads(request.data)
+    try:
+        comment = comment_service.update(data['comment_id'], data['content'])
+        res = {
+            "type": "response",
+            "data": comment.get_json_parsable()
+        }
+
+        return jsonify(res)
+
+    except:
+        res = {
+            "type": "error",
+            "message": "error"
+        }
+
+        return jsonify(res)
+    
+
+    return render_template('home/home.html')
 
 
 @app.route('/comments/service', methods=['GET', 'POST'])

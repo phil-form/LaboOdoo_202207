@@ -1,23 +1,124 @@
 {% block body %}
     <div class="container">
-        <h1 class="mb-3 mt-3">Comments {{ service.service_id }}</h1>      
+        <h1 class="mb-3 mt-3">Comments</h1>
+        <button id="newCommentVueButton" data-bs-toggle="collapse" data-bs-target="#newCommentVue" class="btn btn-primary mb-3">New Comment</button>
+        <div id="newCommentVue" class="collapse">
+            {% include "comment/new_comment.html" %}  
+        </div>
+        <div id="popup"></div>    
         <div id="comments"></div>
     </div>
     <script type="module">
         import { sendAjax } from '/static/js/ajax-tools.js';
         import { CommentComponent } from '/static/js/components/comment-component.js';
 
-        let service_id = "{{ service.service_id }}";
+        let requestPath = "{{ request.path }}"
+        let regService = /service/;
+        let regUserService = /user_service/;
+        let ajaxUrl;
+        let id;
 
-        sendAjax('/comments/service', 'post', service_id)
+        if (regService.test(requestPath)) {
+            id = "{{ id }}";
+            ajaxUrl = '/comments/service';
+        }
+        else if (regUserService.test(requestPath)) {
+            id = "{{ id }}";
+            ajaxUrl = '/comments/user_service';
+        }
+        
+
+        sendAjax(ajaxUrl, 'post', id)
             .then((res) => {
                 const datas = JSON.parse(res);
+                let user_id = "{{ session.user_id }}";
 
                 datas.forEach(data => {
-                    let comment = new CommentComponent(data);
+                    let comment = new CommentComponent(data, user_id);
                     let commentDiv = document.querySelector('#comments');
                     commentDiv.appendChild(comment.card);
                 });
-            })
+
+                const editComment = document.querySelectorAll('button.editButton');
+                const deleteComment = document.querySelectorAll('button.deleteButton');
+
+                editComment.forEach((editButton) => {
+                    editButton.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        let comment = event.currentTarget.closest('div.card');
+                        let commentId = comment.id;
+                        let commentContent = comment.querySelector('p');
+                        let commentDate = comment.querySelector('blockquote');
+                        commentContent.hidden = true;
+                        commentDate.hidden = true;
+                        let cardBody = document.querySelector('div.card-body');
+                        let updateInput = document.createElement('textarea');
+                        updateInput.classList.add('form-control');
+                        updateInput.name = 'content';
+                        updateInput.value = commentContent.innerText;
+                        cardBody.appendChild(updateInput);
+                        editButton.hidden = true;
+                        let delButton = comment.querySelector('button.deleteButton');
+                        delButton.hidden = true;
+                        let btnGroup = document.createElement('div');
+                        btnGroup.classList.add('btn-group', 'mt-2');
+
+                        let saveBtn = document.createElement('button');
+                        saveBtn.classList.add('btn', 'btn-success', 'saveButton', 'mt-1');
+                        saveBtn.innerText = 'save';
+
+                        let cancelBtn = document.createElement('button');
+                        cancelBtn.classList.add('btn', 'btn-secondary', 'cancelButton', 'mt-1');
+                        cancelBtn.innerText = 'cancel';
+
+                        btnGroup.appendChild(saveBtn);
+                        btnGroup.appendChild(cancelBtn);
+                        cardBody.appendChild(btnGroup);
+
+                        const cancelUpdate = comment.querySelector('button.cancelButton');
+                        cancelUpdate.addEventListener('click', (event) => {
+                            event.preventDefault();
+            
+                            const contentInput = comment.querySelector('textarea'); 
+                            contentInput.classList.remove('is-invalid'); 
+                            commentContent.hidden = false;
+                            commentDate.hidden = false;
+                            editButton.hidden = false;
+                            delButton.hidden = false;
+                            cardBody.removeChild(btnGroup);
+                            cardBody.removeChild(contentInput);
+                        });
+
+                        const saveUpdate = comment.querySelector('button.saveButton');
+                        saveUpdate.addEventListener('click', (event) => {
+                            event.preventDefault();
+            
+                            const contentInput = comment.querySelector('textarea');
+                            const newContent = contentInput.value;
+
+                            let data = {
+                                'comment_id': commentId,
+                                'content': updateInput.value
+                            };
+
+                            sendAjax('/comments/update', 'post', JSON.stringify(data))
+                                .then((res) =>
+                                {
+                                    console.log(res)
+                                });
+                        })
+                    });
+                });
+
+                deleteComment.forEach((deleteButton) => {
+                    deleteButton.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        let commentId = event.currentTarget.closest('div.card').id;
+                        console.log('delete id ' + commentId);
+                    });
+                });
+            });
+        
+
     </script>
 {% endblock %}
