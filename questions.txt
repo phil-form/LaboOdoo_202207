@@ -1,0 +1,12 @@
+delivery_controller.py
+19: redirection après création
+30: redirection après mise à jour
+
+add_update.html
+19: pourquoi le username plutôt que le userid ?!
+125: même question, ici poroblème insoluble !
+
+
+            <td>{{ dlv.user_serv.rel_user.firstname + " " + dlv.user_serv.rel_user.lastname }}</td>
+            <td>{{ dlv.user_serv.rel_service.name + " (" + dlv.user_serv.rel_service.type + ")" }}</td>
+
